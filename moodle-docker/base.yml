@@ -1,0 +1,34 @@
+version: "2"
+services:
+  webserver:
+    build: ./moodle-php-apache
+    depends_on:
+      - db
+    volumes:
+      - "${MOODLE_DOCKER_WWWROOT}:/var/www/html"
+      - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
+    env_file:
+      - ./config.env
+    command: 
+      ["sh", "/tmp/setup/install_moodle.sh"]
+  exttests:
+    image: moodlehq/moodle-exttests
+    volumes:
+      - "${ASSETDIR}/exttests/apache2_ports.conf:/etc/apache2/ports.conf"
+      - "${ASSETDIR}/exttests/apache2.conf:/etc/apache2/sites-enabled/000-default.conf"
+  selenium:
+    image: "selenium/standalone-firefox${MOODLE_DOCKER_SELENIUM_SUFFIX:-}:${MOODLE_DOCKER_BROWSER_TAG}"
+    volumes:
+      - "${MOODLE_DOCKER_WWWROOT}:/var/www/html:ro"
+  db:
+    image: mariadb:10.7
+    command: >
+              --character-set-server=utf8mb4
+              --collation-server=utf8mb4_bin
+              --innodb_file_per_table=On
+              --wait-timeout=28800
+    environment:
+      MYSQL_ROOT_PASSWORD: "m@0dl3ing"
+      MYSQL_USER: moodle
+      MYSQL_PASSWORD: "m@0dl3ing"
+      MYSQL_DATABASE: moodle

@@ -1,7 +1,9 @@
+ # Load environment variables that are otherwise not visible inside this script
+source /tmp/setup/config.env 
 
 if [ $PLUGIN_AUTOCOMPLETE  = true ]; then
     # set course id (get course id from backup) - get from database with backup course id
-    echo "Configuring plugin autocomplete"
+    echo "Configuring plugin autocomplete..."
     
     # Absolute path to this script, e.g. /home/user/bin/foo.sh
     SCRIPT=$(readlink -f "$0")

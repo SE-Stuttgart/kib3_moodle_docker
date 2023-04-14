@@ -24,3 +24,9 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     # Set course id for autocomplete plugin
     php /var/www/html/admin/cli/cfg.php --component=local_autocompleteactivities --name=courseids --set=$courseid
 fi
+
+if [ "$PLUGIN_PLUGIN_SLIDEFINDER" = true ]; then
+    echo "Configuring plugin slidefinder..."
+    # this will add the slidefinder block to the right for all course pages
+    php /tmp/setup/plugins/add_block_slidefinder.php
+fi

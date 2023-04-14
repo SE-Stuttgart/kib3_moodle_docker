@@ -6,11 +6,11 @@ require($configfile);
 require_once($CFG->libdir.'/dmllib.php');
 setup_DB();
 
-# filter activitynames: change sortorder
+// filter activitynames: change sortorder
 $filter_activitynames = $DB->get_record('filter_active', array('filter'=>'activitynames'));
 $filter_activitynames_sortoder = $filter_activitynames->sortorder;
 
-# filter sectionnames: activate
+// filter sectionnames: activate
 $filter_sectionnames = $DB->get_record('filter_active', array('filter'=>'sectionnames'));
 $filter_sectionnames->active=true;
 $filter_sectionnames_sortorder = $filter_sectionnames->sortorder;

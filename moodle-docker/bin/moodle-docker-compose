@@ -1,44 +1,20 @@
 #!/usr/bin/env bash
 set -e
 
-# Clone specified moodle version
-# git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git ../moodle
-
 # First find out if this was called from symlink,
 # then find the real path of parent directory.
 # This is needed because macOS does not have GNU realpath.
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
-export MOODLE_DOCKER_WWWROOT="${basedir}/moodle"
+# export MOODLE_DOCKER_WWWROOT="${basedir}/moodle"
 
 # Copy environment file into webserver install script folder
 cp $basedir/config.env $basedir/moodle-php-apache/root/tmp/setup/config.env
-
-# PLUGINS: TODO move into container build file 
-
-# if [ $PLUGIN_AUTOCOMPLETE  = true ]; then
-#     echo "Cloning plugin autocomplete"
-#     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_autocompleteactivities.git ./local/autocompleteactivities
-# fi
-
-# Download Format Tiles Plugin from Moodle Plugin Directory
-# cd "${MOODLE_DOCKER_WWWROOT}/course/format" && curl "https://moodle.org/plugins/download.php/28650/format_tiles_${PLUGIN_TILES_FORMAT_VERSION}.zip" --output tiles.zip && unzip tiles.zip && rm tiles.zip
-
-# Download H5P Plugin
-# cd "${MOODLE_DOCKER_WWWROOT}/mod" && curl "https://moodle.org/plugins/download.php/28179/mod_hvp_${PLUGIN_HVP_VERSION}.zip" --output hvp.zip && unzip hvp.zip && rm hvp.zip
-
-
-
+source $basedir/config.env
 
 ##
 ## ORIGINAL CODE 
 ##
-
-if [ ! -d "$MOODLE_DOCKER_WWWROOT" ];
-then
-    echo 'Error: $MOODLE_DOCKER_WWWROOT is not set or not an existing directory'
-    exit 1
-fi
 
 if [ -z "$MOODLE_DOCKER_DB" ];
 then
@@ -161,60 +137,60 @@ then
 fi
 
 # Selenium browser
-browserparts=(${MOODLE_DOCKER_BROWSER//:/ })
-export MOODLE_DOCKER_BROWSER_NAME=${browserparts[0]}
-export MOODLE_DOCKER_BROWSER_TAG=${browserparts[1]}
+# browserparts=(${MOODLE_DOCKER_BROWSER//:/ })
+# export MOODLE_DOCKER_BROWSER_NAME=${browserparts[0]}
+# export MOODLE_DOCKER_BROWSER_TAG=${browserparts[1]}
 
-if [[ -z "$MOODLE_DOCKER_BROWSER_NAME" ]];
-then
-    MOODLE_DOCKER_BROWSER_NAME=firefox
-fi
+# if [[ -z "$MOODLE_DOCKER_BROWSER_NAME" ]];
+# then
+#     MOODLE_DOCKER_BROWSER_NAME=firefox
+# fi
 
-if [[ -z "$MOODLE_DOCKER_BROWSER_TAG" ]];
-then
-    if [[ "$MOODLE_DOCKER_BROWSER_NAME" = "firefox" ]];
-    then
-        MOODLE_DOCKER_BROWSER_TAG=3
-    elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chrome" ]];
-    then
-        MOODLE_DOCKER_BROWSER_TAG=3
-    fi
-fi
+# if [[ -z "$MOODLE_DOCKER_BROWSER_TAG" ]];
+# then
+#     if [[ "$MOODLE_DOCKER_BROWSER_NAME" = "firefox" ]];
+#     then
+#         MOODLE_DOCKER_BROWSER_TAG=3
+#     elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chrome" ]];
+#     then
+#         MOODLE_DOCKER_BROWSER_TAG=3
+#     fi
+# fi
 
-if [[ "$MOODLE_DOCKER_BROWSER_NAME" != "firefox" ]];
-then
-    dockercompose="${dockercompose} -f ${basedir}/selenium.${MOODLE_DOCKER_BROWSER_NAME}.yml"
-fi
+# if [[ "$MOODLE_DOCKER_BROWSER_NAME" != "firefox" ]];
+# then
+#     dockercompose="${dockercompose} -f ${basedir}/selenium.${MOODLE_DOCKER_BROWSER_NAME}.yml"
+# fi
 
-# Selenium VNC port
-export MOODLE_DOCKER_SELENIUM_SUFFIX=""
-if [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]] || [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT -gt 0 ]]
-then
-    export MOODLE_DOCKER_SELENIUM_SUFFIX="-debug"
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]]
-    then
-        MOODLE_DOCKER_SELENIUM_VNC_PORT=127.0.0.1:$MOODLE_DOCKER_SELENIUM_VNC_PORT
-    fi
-    dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
-fi
+# # Selenium VNC port
+# export MOODLE_DOCKER_SELENIUM_SUFFIX=""
+# if [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]] || [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT -gt 0 ]]
+# then
+#     export MOODLE_DOCKER_SELENIUM_SUFFIX="-debug"
+#     # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
+#     if [[ ! $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]]
+#     then
+#         MOODLE_DOCKER_SELENIUM_VNC_PORT=127.0.0.1:$MOODLE_DOCKER_SELENIUM_VNC_PORT
+#     fi
+#     dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
+# fi
 
-# External services
-if [[ ! -z "$MOODLE_DOCKER_PHPUNIT_EXTERNAL_SERVICES" ]];
-then
-    dockercompose="${dockercompose} -f ${basedir}/phpunit-external-services.yml"
-fi
+# # External services
+# if [[ ! -z "$MOODLE_DOCKER_PHPUNIT_EXTERNAL_SERVICES" ]];
+# then
+#     dockercompose="${dockercompose} -f ${basedir}/phpunit-external-services.yml"
+# fi
 
-#  Faildump directory
-if [[ ! -z "$MOODLE_DOCKER_BEHAT_FAILDUMP" ]];
-then
-    if [ ! -d "$MOODLE_DOCKER_BEHAT_FAILDUMP" ];
-    then
-        echo 'Error: $MOODLE_DOCKER_BEHAT_FAILDUMP is not an existing directory'
-        exit 1
-    fi
-    dockercompose="${dockercompose} -f ${basedir}/behat-faildump.yml"
-fi
+# #  Faildump directory
+# if [[ ! -z "$MOODLE_DOCKER_BEHAT_FAILDUMP" ]];
+# then
+#     if [ ! -d "$MOODLE_DOCKER_BEHAT_FAILDUMP" ];
+#     then
+#         echo 'Error: $MOODLE_DOCKER_BEHAT_FAILDUMP is not an existing directory'
+#         exit 1
+#     fi
+#     dockercompose="${dockercompose} -f ${basedir}/behat-faildump.yml"
+# fi
 
 # Webserver host
 export MOODLE_DOCKER_WEB_HOST=${MOODLE_DOCKER_WEB_HOST:-localhost}
@@ -233,10 +209,10 @@ fi
 
 
 # Mac OS Compatbility
-if [[ "$(uname)" == "Darwin" ]]; then
-    # Support https://docs.docker.com/docker-for-mac/osxfs-caching/
-    dockercompose="${dockercompose} -f ${basedir}/volumes-cached.yml"
-fi
+# if [[ "$(uname)" == "Darwin" ]]; then
+#     # Support https://docs.docker.com/docker-for-mac/osxfs-caching/
+#     dockercompose="${dockercompose} -f ${basedir}/volumes-cached.yml"
+# fi
 
 # # Apply local customisations if a local.yml is found.
 # # Note: This must be the final modification before the docker-compose command is called.

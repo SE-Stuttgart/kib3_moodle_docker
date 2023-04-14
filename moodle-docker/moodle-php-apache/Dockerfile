@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye
+FROM php:8.1-apache-bullseye 
 
 # So we can use it anywhere for conditional stuff. Keeping BC with old (non-buildkit, builders)
 ARG TARGETPLATFORM
@@ -40,4 +40,11 @@ RUN mkdir /var/www/moodledata && chown www-data /var/www/moodledata && \
     mkdir /var/www/behatdata && chown www-data /var/www/behatdata && \
     mkdir /var/www/behatfaildumps && chown www-data /var/www/behatfaildumps
 
-# RUN git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_autocompleteactivities.git ./local/autocompleteactivities
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+# Download moodle
+RUN source /tmp/setup/config.env && git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html
+
+# FROM base 
+# Download plugins
+RUN source /tmp/setup/config.env &&  sh /tmp/setup/plugins/download.sh

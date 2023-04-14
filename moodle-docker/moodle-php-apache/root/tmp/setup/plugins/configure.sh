@@ -10,9 +10,8 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 courseid="NULL";
 while [ "$courseid" = "NULL" ]
 do
-    output=$(php $SCRIPTPATH/get_course_id.php)
     # Find the line with the string "COURSEID"
-    line=$(grep "COURSEID" input_file.txt)
+    line=$(php $SCRIPTPATH/get_course_id.php | grep "COURSEID")
     # Extract the value after the equal sign
     courseid=$(echo "$line" | cut -d '=' -f2)
     echo "KURS"
@@ -23,5 +22,5 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     # set course id (get course id from backup) - get from database with backup course id
     echo "Configuring plugin autocomplete..."
     # Set course id for autocomplete plugin
-    php admin/cli/cfg.php --component=local_autocompleteactivities --name=courseids --set=$courseid
+    php /var/www/html/admin/cli/cfg.php --component=local_autocompleteactivities --name=courseids --set=$courseid
 fi

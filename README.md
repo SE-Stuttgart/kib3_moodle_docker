@@ -16,7 +16,7 @@ Automated Distribution of Moodle, Plugins and Teaching Materials
  
 6. Once the container is running, you can access it through http://localhost:8000 in your browser
 
-7. Use the admin credentials from ``config.env`` to log in
+7. Use the admin credentials from ``config.env`` to log in. You should see the restored course now.
 
 8. To stop / restart the container, just open the Docker desktop app and press the STOP / START button for this container
 

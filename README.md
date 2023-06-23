@@ -2,6 +2,7 @@
 Automated Distribution of Moodle, Plugins and Teaching Materials
 
 ## Installation 
+0. Install Docker desktop: https://www.docker.com/products/docker-desktop/
 1. Clone this repository
 2. Change directory to the directory containing the ``config.env`` file
 3. Copy a full course backup into this directory

@@ -4,4 +4,5 @@
 source /tmp/setup/config.env 
 
 # Restore backup
-cd /var/www/html/ && sudo php ./admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE --categoryid=1
+sudo chown www-data /tmp/setup/data/$COURSE_BACKUP_FILE
+cd /var/www/html/ && sudo -u www-data php ./admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE --categoryid=1

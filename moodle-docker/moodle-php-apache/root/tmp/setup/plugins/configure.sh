@@ -1,5 +1,5 @@
- # Load environment variables that are otherwise not visible inside this script
-source /tmp/setup/config.env 
+# Load environment variables that are otherwise not visible inside this script
+source /tmp/setup/config.env
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")

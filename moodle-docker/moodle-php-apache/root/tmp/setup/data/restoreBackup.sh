@@ -5,4 +5,8 @@ source /tmp/setup/config.env
 
 # Restore backup
 sudo chown www-data /tmp/setup/data/$COURSE_BACKUP_FILE
-cd /var/www/html/ && sudo -u www-data php ./admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE --categoryid=1
+sudo -u www-data php /var/www/html//admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE --categoryid=1
+
+# Perform CRON jobs to fetch H5P libraries
+sudo -u www-data php /var/www/html/admin/cli/scheduled_task.php --execute="\core\task\h5p_get_content_types_task" -f
+sudo -u www-data php /var/www/html/admin/cli/cron.php 

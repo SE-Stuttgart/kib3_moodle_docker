@@ -77,11 +77,11 @@ echo "pcov.initial.files=1024" >> /usr/local/etc/php/conf.d/docker-php-ext-pcov.
 # Install Microsoft dependencies for sqlsrv.
 # (kept apart for clarity, still need to be run here
 # before some build packages are deleted)
-if [[ ${TARGETPLATFORM} == "linux/amd64" ]]; then
-    /tmp/setup/sqlsrv-extension.sh
-else
-    echo "sqlsrv extension not available for ${TARGETPLATFORM} architecture, skipping"
-fi
+# if [[ ${TARGETPLATFORM} == "linux/amd64" ]]; then
+#     /tmp/setup/sqlsrv-extension.sh
+# else
+#     echo "sqlsrv extension not available for ${TARGETPLATFORM} architecture, skipping"
+# fi
 
 # Keep our image size down..
 pecl clear-cache

@@ -9,11 +9,7 @@ basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 # export MOODLE_DOCKER_WWWROOT="${basedir}/moodle"
 
 # Copy environment file into webserver install script folder
-cp $basedir/config.env $basedir/moodle-php-apache/root/tmp/setup/config.env
 source $basedir/config.env
-
-# Copy backup into container dir
-cp $basedir/$COURSE_BACKUP_FILE $basedir/moodle-php-apache/root/tmp/setup/data/$COURSE_BACKUP_FILE
 
 
 ##

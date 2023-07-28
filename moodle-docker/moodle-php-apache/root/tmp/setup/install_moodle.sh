@@ -5,7 +5,7 @@ source /tmp/setup/config.env
 ###
 ### Check if moodle is already installed - if not, install
 ###
-if [! -e /var/www/html/config.php ]
+if [ ! -f /var/www/html/config.php ]
 then 
     ### Install moodle
     echo "Installing moodle..."
@@ -34,7 +34,7 @@ then
     ###
     ### Restore course backup
     ###
-    sh /tmp/setup/data/restoreBackup.sh
+    sh /tmp/setup/restoreBackup.sh
 
     ###
     ### Configure Plugins that need to know course name (AFTER IMPORTING COURSE)

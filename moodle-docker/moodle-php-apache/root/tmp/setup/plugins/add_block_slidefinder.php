@@ -9,8 +9,23 @@ setup_DB();
 // get course
 $courses = $DB->get_records('course');
 $course = NULL;
+
+$f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
+if ($f_restore_info) {
+    while (($line = fgets($f_restore_info)) !== false) {
+        if (strpos($line, 'ID') !== false) {
+            preg_match_all('/\d+/', $line, $matches);
+            $course_id = $matches[0][0];
+            echo "Slidefinder: Course id: " . $course_id . "\n";
+        }
+    }
+    fclose($f_restore_info);
+} else {
+    echo "Slidefinder: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
+}
+
 foreach($courses as $course_candidate) {
-    if($course_candidate->fullname == "Zusatzqualifikation KI und Maschinelles Lernen") {
+    if($course_candidate->id == $course_id) {
         $course = $course_candidate;
         break;
     }

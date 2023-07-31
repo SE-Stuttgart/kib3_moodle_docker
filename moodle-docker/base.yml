@@ -1,13 +1,16 @@
 version: "2"
 services:
   webserver:
-    build: .
+    env_file:
+      - config.env
+    build: 
+      context: .
+      args:
+        COURSE_BACKUP_FILE_ARG: ${COURSE_BACKUP_FILE}
     depends_on:
       - db
     volumes:
       - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
-    env_file:
-      - ./config.env
     command: 
       ["sh", "/tmp/setup/install_moodle.sh"]
   db:

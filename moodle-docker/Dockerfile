@@ -1,7 +1,6 @@
 FROM php:8.1-apache-bullseye 
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
-
 # Install some packages that are useful within the images.
 # Cleanup afterwards.
 RUN apt-get update && apt-get install -y \
@@ -36,12 +35,18 @@ RUN source /tmp/setup/config.env &&\
     mkdir /var/www/moodledata && chown www-data /var/www/moodledata
 
 # Download plugins
-COPY ./moodle-php-apache/root/tmp/setup/plugins /tmp/setup/plugins
+COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
+    ./moodle-php-apache/root/tmp/setup/plugins/configure_filters.php \
+    ./moodle-php-apache/root/tmp/setup/plugins/configure_webservices.php \ 
+    ./moodle-php-apache/root/tmp/setup/plugins/download.sh \ 
+    ./moodle-php-apache/root/tmp/setup/plugins/configure.sh \ 
+    /tmp/setup/plugins/
 RUN source /tmp/setup/config.env && sh /tmp/setup/plugins/download.sh
 
 # Add backup
 COPY ./moodle-php-apache/root/tmp/setup/restoreBackup.sh /tmp/setup/restoreBackup.sh
-COPY ./$COURSE_BACKUP_FILE /tmp/setup/data/$COURSE_BACKUP_FILE
+ARG COURSE_BACKUP_FILE_ARG
+COPY ./${COURSE_BACKUP_FILE_ARG} /tmp/setup/data/${COURSE_BACKUP_FILE_ARG}
 
 # Add moodle install file
 COPY ./moodle-php-apache/root/tmp/setup/install_moodle.sh /tmp/setup/install_moodle.sh

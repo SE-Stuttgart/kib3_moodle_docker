@@ -14,7 +14,6 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_autocompleteactivities.git /var/www/html/local/autocompleteactivities
 fi
 
-
 if [ "$PLUGIN_H5P" = true ]; then
     echo "Downloading H5P Plugin..."
     cd /var/www/html/mod && curl "https://moodle.org/plugins/download.php/28179/mod_hvp_${PLUGIN_HVP_VERSION}.zip" --output hvp.zip && unzip hvp.zip && rm hvp.zip
@@ -36,5 +35,7 @@ if [ "$PLUGIN_ICECREAMGAME" = true ]; then
     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_icecreamgame.git /var/www/html/mod/icecreamgame
 fi
 
-
-# TODO download course backup from moodle cloud (NOTE: currently not accecssible)
+if [ "$PLUGIN_CHATBOT" = true ]; then 
+    echo "Downloading Chatbot Plugin..."
+    git clone https://github.com/SE-Stuttgart/kib3_moodle_chatbot_frontend.git /var/www/html/blocks/chatbot
+fi

@@ -85,6 +85,13 @@ then
 fi
 
 
+# Chatbot
+if [ "$PLUGIN_CHATBOT" == true ];
+then
+    echo "Installing chatbot!"
+    dockercompose="${dockercompose} -f ${basedir}/chatbot.yml"
+fi
+
 # Mac OS Compatbility
 # if [[ "$(uname)" == "Darwin" ]]; then
 #     # Support https://docs.docker.com/docker-for-mac/osxfs-caching/

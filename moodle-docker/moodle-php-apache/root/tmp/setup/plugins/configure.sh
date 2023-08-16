@@ -26,3 +26,8 @@ if [ "$PLUGIN_SLIDEFINDER" = true ]; then
     php /tmp/setup/plugins/add_block_slidefinder.php
     echo "Done."
 fi
+
+if [ "$PLUGIN_CHATBOT" = true ]; then
+    echo "Configuring plugin chatbot..."
+    # TODO 
+fi

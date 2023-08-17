@@ -7,9 +7,6 @@ require_once($CFG->libdir.'/dmllib.php');
 setup_DB();
 
 // get course
-$courses = $DB->get_records('course');
-$course = NULL;
-
 $f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
 if ($f_restore_info) {
     while (($line = fgets($f_restore_info)) !== false) {
@@ -23,13 +20,7 @@ if ($f_restore_info) {
 } else {
     echo "Slidefinder: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
 }
-
-foreach($courses as $course_candidate) {
-    if($course_candidate->id == $course_id) {
-        $course = $course_candidate;
-        break;
-    }
-}
+$course = $DB->get_record('course', array('id'=>$course_id));
 
 // set course page context
 require_once($CFG->libdir.'/blocklib.php');

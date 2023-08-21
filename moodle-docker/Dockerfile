@@ -34,6 +34,9 @@ RUN source /tmp/setup/config.env &&\
     git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html && \
     mkdir /var/www/moodledata && chown www-data /var/www/moodledata
 
+# Copy eslintrc (ONLY FOR DEVELOPMENT)
+COPY .eslintrc /var/www/html/.eslintrc
+
 # Download plugins
 COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_filters.php \

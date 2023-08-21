@@ -35,7 +35,6 @@ then
     php /tmp/setup/plugins/configure_webservices.php
 
     # TODO configure ice cream game (+ web services)
-    # TODO configure slidefinder (+ web services)
 
     ###
     ### Restore course backup

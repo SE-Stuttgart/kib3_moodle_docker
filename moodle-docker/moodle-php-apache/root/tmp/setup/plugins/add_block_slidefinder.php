@@ -29,5 +29,5 @@ $page->set_course($course);
 
 // add block to course pages
 $page->blocks->add_region(BLOCK_POS_RIGHT, false);
-$page->blocks->add_block('slidefinder', BLOCK_POS_RIGHT, 1, true, BUI_CONTEXTS_FRONTPAGE_SUBS); // show on frontpage and all subcontexts
+$page->blocks->add_block('slidefinder', BLOCK_POS_RIGHT, 1, true); // show on frontpage and all subcontexts
 print "Added slidefinder block to course".$course->id."\n";

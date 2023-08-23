@@ -29,5 +29,5 @@ $page->set_course($course);
 
 // add block to course pages (everywhere)
 $page->blocks->add_region(BLOCK_POS_RIGHT, false);
-$page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, BUI_CONTEXTS_ENTIRE_SITE);
+$page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, '*');
 print "Added chatbot block to course".$course->id."\n";

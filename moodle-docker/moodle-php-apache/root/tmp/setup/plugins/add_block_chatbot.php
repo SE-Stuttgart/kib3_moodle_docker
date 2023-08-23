@@ -13,12 +13,12 @@ if ($f_restore_info) {
         if (strpos($line, 'ID') !== false) {
             preg_match_all('/\d+/', $line, $matches);
             $course_id = $matches[0][0];
-            echo "Slidefinder: Course id: " . $course_id . "\n";
+            echo "Chatbot: Course id: " . $course_id . "\n";
         }
     }
     fclose($f_restore_info);
 } else {
-    echo "Slidefinder: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
+    echo "Chatbot: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
 }
 $course = $DB->get_record('course', array('id'=>$course_id));
 
@@ -27,7 +27,7 @@ require_once($CFG->libdir.'/blocklib.php');
 $page = new moodle_page();
 $page->set_course($course);
 
-// add block to course pages
+// add block to course pages (everywhere)
 $page->blocks->add_region(BLOCK_POS_RIGHT, false);
-$page->blocks->add_block('slidefinder', BLOCK_POS_RIGHT, 1, true, BUI_CONTEXTS_FRONTPAGE_SUBS); // show on frontpage and all subcontexts
-print "Added slidefinder block to course".$course->id."\n";
+$page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, BUI_CONTEXTS_ENTIRE_SITE);
+print "Added chatbot block to course".$course->id."\n";

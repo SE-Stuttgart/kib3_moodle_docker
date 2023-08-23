@@ -16,7 +16,7 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     # set course id (get course id from backup) - get from database with backup course id
     echo "Configuring plugin autocomplete..."
     # Set course id for autocomplete plugin
-    php /var/www/html/admin/cli/cfg.php --component=local_autocompleteactivities --name=courseids --set=$courseid
+    php /var/www/html/moodle/admin/cli/cfg.php --component=local_autocompleteactivities --name=courseids --set=$courseid
     echo "Done."
 fi
 
@@ -29,5 +29,6 @@ fi
 
 if [ "$PLUGIN_CHATBOT" = true ]; then
     echo "Configuring plugin chatbot..."
-    # TODO 
+    # this will add the chatbot block to all pages
+    php /tmp/setup/plugins/add_block_chatbot.php
 fi

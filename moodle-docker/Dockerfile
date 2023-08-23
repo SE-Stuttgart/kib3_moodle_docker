@@ -1,4 +1,4 @@
-FROM php:8.1-apache-bullseye 
+FROM php:8.1-fpm-bullseye 
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
 # Install some packages that are useful within the images.
@@ -6,7 +6,8 @@ ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 RUN apt-get update && apt-get install -y \
         git \
         sudo \
-        vim &&\
+        vim \
+        nginx &&\
     rm -rf /var/lib/apt/lists/* && \
     rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -26,19 +27,23 @@ RUN chmod 777 /tmp && chmod +t /tmp && \
 ENV LD_LIBRARY_PATH /usr/local/instantclient
 # Add php config
 COPY ./moodle-php-apache/root/usr/local/etc/php/conf.d/docker-php-moodle.ini /usr/local/etc/php/conf.d/docker-php-moodle.ini
-
+# Add ngingx config & start service
+COPY ./moodle-php-apache/root/etc/nginx /etc/nginx
 
 # Download moodle
 COPY ./config.env /tmp/setup/config.env
 RUN source /tmp/setup/config.env &&\
-    git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html && \
-    mkdir /var/www/moodledata && chown www-data /var/www/moodledata
+    git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html/moodle && \
+    mkdir /var/www/html/moodledata && chown www-data /var/www/html/moodledata && \
+    chmod -R 777 /var/www/html/moodle && \
+    chmod -R 755 /var/www/html/moodledata
 
 # Copy eslintrc (ONLY FOR DEVELOPMENT)
-COPY .eslintrc /var/www/html/.eslintrc
+COPY .eslintrc /var/www/html/moodle/.eslintrc
 
 # Download plugins
 COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
+    ./moodle-php-apache/root/tmp/setup/plugins/add_block_chatbot.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_filters.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_webservices.php \ 
     ./moodle-php-apache/root/tmp/setup/plugins/download.sh \ 

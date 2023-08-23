@@ -6,16 +6,17 @@ set -e
 # This is needed because macOS does not have GNU realpath.
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
-# export MOODLE_DOCKER_WWWROOT="${basedir}/moodle"
 
-# Copy environment file into webserver install script folder
+echo "Basedir" . $basedir
+
+# Export all envionment variables
+set -a
 source $basedir/config.env
-export COURSE_BACKUP_FILE=${COURSE_BACKUP_FILE}
+set +a
+# Test 
 echo "Course backup file: ${COURSE_BACKUP_FILE}"
 
-##
-## ORIGINAL CODE 
-##
+
 
 if [ -z "$MOODLE_DOCKER_DB" ];
 then
@@ -40,7 +41,7 @@ dockercompose="${dockercompose} -f ${basedir}/service.mail.yml"
 export MOODLE_DOCKER_PHP_VERSION=${MOODLE_DOCKER_PHP_VERSION:-8.1}
 
 # Database flavour.
-dockercompose="${dockercompose} -f ${basedir}/db.${MOODLE_DOCKER_DB}.yml"
+dockercompose="${dockercompose} -f ${basedir}/db/db.${MOODLE_DOCKER_DB}.yml"
 
 # Add support for version specific database settings.
 if [ ! -z "$MOODLE_DOCKER_DB_VERSION" ];
@@ -51,39 +52,6 @@ then
     fi
 fi
 
-# Support PHP version overrides for DB not available any more.
-
-# Expose DB port if requested.
-if [[ $MOODLE_DOCKER_DB_PORT == *":"* ]] || [[ $MOODLE_DOCKER_DB_PORT -gt 0 ]]
-then
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_DB_PORT == *":"* ]]
-    then
-        export MOODLE_DOCKER_DB_PORT=127.0.0.1:$MOODLE_DOCKER_DB_PORT
-    fi
-    filename="${basedir}/db.${MOODLE_DOCKER_DB}.port.yml"
-    if [ -f $filename ];
-    then
-        dockercompose="${dockercompose} -f ${filename}"
-    fi
-fi
-
-
-# Webserver host
-export MOODLE_DOCKER_WEB_HOST=${MOODLE_DOCKER_WEB_HOST:-localhost}
-
-# Webserver port
-export MOODLE_DOCKER_WEB_PORT=${MOODLE_DOCKER_WEB_PORT:-8000}
-if [[ $MOODLE_DOCKER_WEB_PORT == *":"* ]] || [[ $MOODLE_DOCKER_WEB_PORT -gt 0 ]]
-then
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_WEB_PORT == *":"* ]]
-    then
-        MOODLE_DOCKER_WEB_PORT=127.0.0.1:$MOODLE_DOCKER_WEB_PORT
-    fi
-    dockercompose="${dockercompose} -f ${basedir}/webserver.port.yml"
-fi
-
 
 # Chatbot
 if [ "$PLUGIN_CHATBOT" == true ];
@@ -91,20 +59,5 @@ then
     echo "Installing chatbot!"
     dockercompose="${dockercompose} -f ${basedir}/chatbot.yml"
 fi
-
-# Mac OS Compatbility
-# if [[ "$(uname)" == "Darwin" ]]; then
-#     # Support https://docs.docker.com/docker-for-mac/osxfs-caching/
-#     dockercompose="${dockercompose} -f ${basedir}/volumes-cached.yml"
-# fi
-
-# # Apply local customisations if a local.yml is found.
-# # Note: This must be the final modification before the docker-compose command is called.
-# localfile="${basedir}/local.yml"
-# if [ -f "${localfile}" ]
-# then
-#   echo "Including local options from ${localfile}"
-#   dockercompose="${dockercompose} -f ${localfile}"
-# fi
 
 $dockercompose "$@"

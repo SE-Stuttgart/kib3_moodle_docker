@@ -1,0 +1,11 @@
+server {
+    listen 80;
+    server_name webserver;
+
+    # pass all requests to moodle listening on port 8001
+    location / {
+        include /etc/nginx/conf.d/proxy.conf;
+        proxy_pass http://127.0.0.1:8001;
+        proxy_redirect http://127.0.0.1:8001/ http://$host;
+    }
+}

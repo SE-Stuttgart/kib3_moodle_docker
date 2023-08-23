@@ -1,7 +1,7 @@
 <?php
 define('CLI_SCRIPT', true);
 
-$configfile = '/var/www/html/config.php';
+$configfile = '/var/www/html/moodle/config.php';
 require($configfile);
 require_once($CFG->libdir.'/dmllib.php');
 setup_DB();

@@ -12,8 +12,8 @@ Automated Distribution of Moodle, Plugins and Teaching Materials
    Wait for everything to be completed (after the terminal says the container is running, open the Docker desktop app, go to the `Containers` tab on the left panel:
    <img width="1538" alt="Bildschirmfoto 2023-06-23 um 10 34 41" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/d66942ae-a6c3-4007-95fb-97b46e5c8a28">
   Then, click the `moodle-docker` container. This opens a log view. Watch this log to see when the installation finished:
- <img width="1288" alt="Bildschirmfoto 2023-06-23 um 11 01 27" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/2f483b41-7912-4806-bf2d-195aa3b81130">
- 
+ ![Bildschirmfoto 2023-08-23 um 16 56 48](https://media.github.tik.uni-stuttgart.de/user/3040/files/b8014a87-fd4e-4981-b144-dc641cfe4d41)
+
 6. Once the container is running, you can access it through http://localhost:8000 in your browser
 
 7. Use the admin credentials from ``config.env`` to log in. You should see the restored course now.

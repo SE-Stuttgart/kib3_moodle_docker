@@ -21,7 +21,7 @@ COPY ./moodle-php-apache/root/tmp/setup/php-extensions.sh \
      /tmp/setup/
 # Fix the original permissions of /tmp, the PHP default upload tmp dir
 # Then, install php extensions
-RUN chmod 777 /tmp && chmod +t /tmp && \ 
+RUN chmod -R 777 /tmp && chmod +t /tmp && \ 
     /tmp/setup/php-extensions.sh 
     # && /tmp/setup/oci8-extension.sh && \
 ENV LD_LIBRARY_PATH /usr/local/instantclient
@@ -36,7 +36,7 @@ RUN source /tmp/setup/config.env &&\
     git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html/moodle && \
     mkdir /var/www/html/moodledata && chown www-data /var/www/html/moodledata && \
     chmod -R 777 /var/www/html/moodle && \
-    chmod -R 755 /var/www/html/moodledata
+    chmod -R 777 /var/www/html/moodledata
 
 # Copy eslintrc (ONLY FOR DEVELOPMENT)
 COPY .eslintrc /var/www/html/moodle/.eslintrc

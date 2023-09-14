@@ -16,14 +16,6 @@ set +a
 # Test 
 echo "Course backup file: ${COURSE_BACKUP_FILE}"
 
-
-
-if [ -z "$MOODLE_DOCKER_DB" ];
-then
-    echo 'Error: $MOODLE_DOCKER_DB is not set'
-    exit 1
-fi
-
 export ASSETDIR="${basedir}/assets"
 
 # Test if we have docker compose v2, and keep quiet if we don't.
@@ -51,7 +43,6 @@ then
         dockercompose="${dockercompose} -f ${filename}"
     fi
 fi
-
 
 # Chatbot
 if [ "$PLUGIN_CHATBOT" == true ];

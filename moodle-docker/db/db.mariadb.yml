@@ -5,15 +5,25 @@ services:
       MOODLE_DOCKER_DBTYPE: mariadb
       MOODLE_DOCKER_DBCOLLATION: utf8mb4_bin
   db:
-    image: mariadb:${MOODLE_DOCKER_DB_VERSION:-10.7}
+    image: mariadb:10.7
+    env_file:
+      - config.env
+    volumes:
+      - moodle-database:/config/databases/
+      - moodle-database:/var/lib/mysql
     command: >
               --character-set-server=utf8mb4
               --collation-server=utf8mb4_bin
               --innodb_file_per_table=On
               --wait-timeout=28800
               --skip-log-bin
+              --max_allowed_packet=32505856
     environment:
-      MYSQL_ROOT_PASSWORD: "m@0dl3ing"
-      MYSQL_USER: moodle
-      MYSQL_PASSWORD: "m@0dl3ing"
-      MYSQL_DATABASE: moodle
+      MYSQL_ROOT_PASSWORD: ${MOODLE_DOCKER_DBROOTPASS}
+      MYSQL_USER: ${MOODLE_DOCKER_DBUSER}
+      MYSQL_PASSWORD: ${MOODLE_DOCKER_DBPASS}
+      MYSQL_DATABASE: ${MOODLE_DOCKER_DBNAME}
+    ports:
+      - "3306:${MOODLE_DOCKER_DBPORT}"
+volumes:
+  moodle-database:

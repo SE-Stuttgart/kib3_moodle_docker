@@ -11,15 +11,17 @@ $filter_activitynames = $DB->get_record('filter_active', array('filter'=>'activi
 $filter_activitynames_sortoder = $filter_activitynames->sortorder;
 
 // filter sectionnames: activate
-$filter_sectionnames = $DB->get_record('filter_active', array('filter'=>'sectionnames'));
-$filter_sectionnames->active=true;
-$filter_sectionnames_sortorder = $filter_sectionnames->sortorder;
-if($filter_activitynames_sortoder > $filter_sectionnames_sortorder) {
-    # make sure sectionnames comes before actvitynames
-    $filter_activitynames->sortorder = $filter_sectionnames_sortorder;
-    $filter_sectionnames->sortorder = $filter_activitynames_sortoder;
+$filter_sectionnames = new stdClass();
+$filter_sectionnames->filter = "sectionnames";
+$filter_sectionnames->contextid = "1";
+$filter_sectionnames->active = "1";
+
+# make sure sectionnames comes before actvitynames w.r.t. sortorder
+$filter_sectionnames->sortorder = 1;
+if($filter_activitynames_sortoder >= $filter_sectionnames->sortorder) {
+    $filter_activitynames->sortorder = $filter_sectionnames->sortorder + 1;
     $DB->update_record('filter_active', $filter_activitynames);
 }
-$DB->update_record('filter_active', $filter_sectionnames);
+$filter_sectionnames_id = $DB->insert_record('filter_active', $filter_sectionnames);
 
 print "\nCONFIGURED FILTER SORTORDER: sectionnames -> ".$filter_sectionnames->sortorder.", FILTER activitynames -> ".$filter_activitynames->sortorder."\n";

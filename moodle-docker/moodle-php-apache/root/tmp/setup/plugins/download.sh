@@ -26,7 +26,7 @@ fi
 
 if [ "$PLUGIN_STUDENT_REPORT_GENERATION" = true ]; then 
     echo "Downloading Student Report Generation Plugin..."
-    git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_srg.git /var/www/html/moodle/mod/srg
+    git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_srg.git /var/www/html/moodle/mod/srg --branch ${PLUGIN_STUDENT_REPORT_GENERATION_VESION}
 fi
 
 

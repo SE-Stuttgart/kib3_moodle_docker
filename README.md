@@ -2,18 +2,22 @@
 Automated Distribution of Moodle, Plugins and Teaching Materials
 
 ## Installation 
-0. Install Docker desktop: https://www.docker.com/products/docker-desktop/
-1. Clone this repository
+0. Install [Docker desktop](https://www.docker.com/products/docker-desktop/)
+   (FOR WINDOWS USERS: Requires to [activate optional windows feature](https://learn.microsoft.com/en-us/windows/application-management/add-apps-and-features) `Windows Subsystem for Linux`)
+1. Clone this repository (or download as a .zip file and extract)
 2. Change directory to the directory containing the ``config.env`` file
 3. Copy a full course backup into this directory
 4. Open `config.env` and edit the variables to your liking (e.g., name of moodle, admin credentials, ...)
   - MAKE SURE TO CHANGE THE VALUE OF `COURSE_BACKUP_FILE` to the name of the backup file
-5. Execute `bin/moodle-docker-compose up -d` (this might take quite a while).
-   Wait for everything to be completed (after the terminal says the container is running, open the Docker desktop app, go to the `Containers` tab on the left panel:
+5. Execute `./bin/moodle-docker-compose up -d` (this might take a while).
+   
+  (FOR WINDOWS USERS: if you get an error message like _WSL Kernel version is too low_, you can upgrade it by opening a terminal end executing the command ``wsl --update``. Then, re-try this step)
+
+   Wait for everything to be completed: After the terminal says the container is running, open the Docker desktop app, go to the `Containers` tab on the left panel:
    <img width="1538" alt="Bildschirmfoto 2023-06-23 um 10 34 41" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/d66942ae-a6c3-4007-95fb-97b46e5c8a28">
   Then, click the `moodle-docker` container. This opens a log view. Watch this log to see when the installation finished:
  ![Bildschirmfoto 2023-08-23 um 16 56 48](https://media.github.tik.uni-stuttgart.de/user/3040/files/b8014a87-fd4e-4981-b144-dc641cfe4d41)
-
+ 
 6. Once the container is running, you can access it through http://localhost:8000 in your browser
 
 7. Use the admin credentials from ``config.env`` to log in. You should see the restored course now.

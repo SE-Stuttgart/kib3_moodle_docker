@@ -33,7 +33,7 @@ print "CREATED WEBSERVICE USER " . $user->username . " CREATED\n";
 require_once($CFG->libdir."/accesslib.php");
 $context = context_system::instance();
 $roleid = create_role("KIB3 Webservice", "kib3webservice", "A role that can use REST web services and create tokens", "manager");
-print "CREATED ROLE";
+print "CREATED ROLE\n";
 // asssign rights: webservice/rest:use
 assign_capability("webservice/rest:use", CAP_ALLOW, $roleid, $context->id, true);
 // assign rights: moodle/webservice:createtoken 
@@ -46,10 +46,10 @@ foreach($roleid_authenticated_user as $role_user) {
     // assign rights: moodle/webservice:createtoken 
     assign_capability("moodle/webservice:createtoken", CAP_ALLOW, $role_user->id, $context->id, true);
 }
-print "ADDED ROLE PERMISSIONS";
+print "ADDED ROLE PERMISSIONS\n";
 // asssign role
 role_assign($roleid, $userid, $context->id);
-print "ASSIGNED ROLE";
+print "ASSIGNED ROLE\n";
 
 // create new webservice: kib3_webservice
 require($CFG->dirroot."/webservice/lib.php");
@@ -59,7 +59,7 @@ $ws_id = $ws->add_external_service((object)[
     "enabled" => 1,
     'requiredcapability' => '',
     'restrictedusers' => true,
-    'shortname' => 'moodleservice',
+    'shortname' => 'kib3_webservices',
     'downloadfiles' => false,
     'uploadfiles' => false,
 ]);
@@ -68,7 +68,7 @@ $serviceuser = new stdClass();
 $serviceuser->externalserviceid = $ws_id;
 $serviceuser->userid = $userid;
 $ws->add_ws_authorised_user($serviceuser);
-print "REGISTERED WEBSERVICE USER";
+print "REGISTERED WEBSERVICE USER\n";
 
 // add webservice functions
 if(getenv("PLUGIN_ICECREAMGAME") == "true") {
@@ -85,4 +85,4 @@ if(getenv("PLUGIN_SLIDEFINDER") == "true") {
 
 # generate token
 $ws->generate_user_ws_tokens($userid);
-print "GENERATED TOKENS";
+print "GENERATED TOKENS\n";

@@ -35,8 +35,6 @@ then
     php /var/www/html/moodle/admin/cli/cfg.php --name=webserviceprotocols --set=rest
     php /tmp/setup/plugins/configure_webservices.php
 
-    # TODO configure ice cream game (+ web services)
-
     ###
     ### Restore course backup
     ###
@@ -51,6 +49,12 @@ else
 fi
 
 ###
+### Delete caches
+###
+rm -rf /var/www/html/moodledata/cache/* 
+rm -rf /var/www/html/moodledata/localcache/* 
+
+###
 ### Start apache to serve moodle
 ### 
 # apache2ctl -D FOREGROUND
@@ -58,4 +62,3 @@ php-fpm -D # run php-fpm in background
 service nginx start
 # nginx -g 'daemon off;';
 tail -f /dev/null
-

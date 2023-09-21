@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
         git \
         sudo \
         vim \
-        nginx &&\
+        nginx \
+        gettext-base &&\
     rm -rf /var/lib/apt/lists/* && \
     rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -18,6 +19,7 @@ COPY ./moodle-php-apache/root/tmp/setup/php-extensions.sh \
      ./moodle-php-apache/root/tmp/setup/oci8-extension.sh \
      ./moodle-php-apache/root/tmp/setup/moodle-docker-wait-for-it.sh \
      ./moodle-php-apache/root/tmp/setup/sqlsrv-extension.sh \
+     ./moodle-php-apache/root/tmp/setup/nginx_config.sh \
      /tmp/setup/
 # Fix the original permissions of /tmp, the PHP default upload tmp dir
 # Then, install php extensions
@@ -25,13 +27,14 @@ RUN chmod -R 777 /tmp && chmod +t /tmp && \
     /tmp/setup/php-extensions.sh 
     # && /tmp/setup/oci8-extension.sh && \
 ENV LD_LIBRARY_PATH /usr/local/instantclient
-# Add php config
+# Add configs
 COPY ./moodle-php-apache/root/usr/local/etc/php/conf.d/docker-php-moodle.ini /usr/local/etc/php/conf.d/docker-php-moodle.ini
-# Add ngingx config & start service
+COPY ./config.env /tmp/setup/config.env
+# Add ngingx configs & configure nginx 
 COPY ./moodle-php-apache/root/etc/nginx /etc/nginx
+RUN sh /tmp/setup/nginx_config.sh
 
 # Download moodle
-COPY ./config.env /tmp/setup/config.env
 RUN source /tmp/setup/config.env &&\
     git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html/moodle && \
     mkdir /var/www/html/moodledata && chown www-data /var/www/html/moodledata && \

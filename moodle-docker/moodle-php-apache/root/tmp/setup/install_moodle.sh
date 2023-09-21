@@ -23,6 +23,11 @@ then
 
     # enable reverse proxy
     sed -i '/^$CFG->wwwroot.*/a $CFG->reverseproxy = true;' /var/www/html/moodle/config.php
+    # enable ssl
+    if [ "$MOODLE_SERVER_SSL" = true ];
+    then
+        sed -i '/^$CFG->wwwroot.*/a $CFG->sslproxy = true;' /var/www/html/moodle/config.php
+    fi
 
     # increase limit of sections per course (required to restore backup)
     php /var/www/html/moodle/admin/cli/cfg.php --component=moodlecourse --name=maxsections --set=150

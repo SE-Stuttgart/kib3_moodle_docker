@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
         sudo \
         vim \
         nginx \
-        gettext-base &&\
+        gettext-base \
+        cron && \
     rm -rf /var/lib/apt/lists/* && \
     rm /bin/sh && ln -s /bin/bash /bin/sh
 

@@ -49,6 +49,12 @@ then
     ### Configure Plugins that need to know course name (AFTER IMPORTING COURSE)
     ###
     sh /tmp/setup/plugins/configure.sh
+
+    ###
+    ### Setup CRON
+    ###
+    crontab -u www-data -l | echo "* * * * * /usr/local/bin/php /var/www/html/moodle/admin/cli/cron.php > /dev/null" | crontab -u www-data -
+    service cron start
 else
     echo "Found moodle installation"
 fi

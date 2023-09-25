@@ -1,0 +1,17 @@
+version: "2"
+services:
+  webserver:
+    env_file:
+      - config.env
+    build: 
+      context: .
+      args:
+        COURSE_BACKUP_FILE_ARG: ${COURSE_BACKUP_FILE}
+    depends_on:
+      - db
+    volumes:
+      - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
+    command: 
+      ["sh", "/tmp/setup/install_moodle.sh"]
+    ports:
+      - "${MOODLE_SERVER_PORT}:80"

@@ -6,7 +6,7 @@ Automated Distribution of Moodle, Plugins and Teaching Materials
    (FOR WINDOWS USERS: Requires to [activate optional windows feature](https://learn.microsoft.com/en-us/windows/application-management/add-apps-and-features) `Windows Subsystem for Linux`)
 1. Clone this repository (or download as a .zip file and extract)
 2. Change directory to the directory containing the ``config.env`` file
-3. IMPORTANT: CHANGE ALL PASSWORDS AND USERNAMES IN ``config.env``!!! Also, if you don't want SSL, set it to false (otherwise, set the certificate and key file paths). 
+3. IMPORTANT: CHANGE ALL PASSWORDS AND USERNAMES IN ``config.env`` !!! Also, if you don't want SSL, set it to false (otherwise, set the certificate and key file paths). 
 4. Copy a full course backup into this directory
 5. Open `config.env` and edit the variables to your liking (e.g., name of moodle, admin credentials, ...)
   - MAKE SURE TO CHANGE THE VALUE OF `COURSE_BACKUP_FILE` to the name of the backup file

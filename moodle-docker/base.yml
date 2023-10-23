@@ -5,6 +5,9 @@ services:
       - config.env
     build: 
       context: .
+      platforms:
+        - "linux/amd64"
+        - "linux/arm64"
       args:
         COURSE_BACKUP_FILE_ARG: ${COURSE_BACKUP_FILE}
     depends_on:

@@ -1,10 +1,10 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name 0.0.0.0;
+    server_name ${SERVER_NAME};
 
-    # access_log  /var/log/nginx/proxy_access.log;
-    # error_log   /var/log/nginx/proxy_error.log;
+    access_log  /var/log/nginx/proxy_access.log;
+    error_log   /var/log/nginx/proxy_error.log;
 
     # pass all requests to moodle listening on port 9000
     location / {
@@ -12,7 +12,7 @@ server {
         proxy_pass http://127.0.0.1:8001;
         proxy_redirect http://127.0.0.1:8001/ http://$host;
 
-        # access_log  /var/log/nginx/proxy_inside_access.log;
-        # error_log   /var/log/nginx/proxy_inside_error.log;
+        access_log  /var/log/nginx/proxy_inside_access.log;
+        error_log   /var/log/nginx/proxy_inside_error.log;
     }
 }

@@ -4,15 +4,19 @@ services:
   #   depends_on:
   #     - chatbot
   chatbot:
-    build: ./chatbot/
+    build: 
+      context: ./chatbot/
+      platforms:
+        - "linux/amd64"
+        # - "linux/arm64"
     env_file:
       - config.env
     depends_on:
       - db
       - webserver
-    command: >
-      bash -c "cd /chatbot/
-      && python run_server.py"
-      # ["tail", "-f", "/dev/null"]
+    command: # >
+      #bash -c "cd /chatbot/
+      #&& python run_server.py"
+      ["tail", "-f", "/dev/null"]
     ports:
       - "44123:44123"

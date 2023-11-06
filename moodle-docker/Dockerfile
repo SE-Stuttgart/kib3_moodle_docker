@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-bullseye 
+FROM php:8.1-fpm-bullseye 
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
 # Install some packages that are useful within the images.
@@ -6,13 +6,14 @@ ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 RUN apt-get update && apt-get install -y \
         git \
         sudo \
-        vim \
         nginx \
         gettext-base \
         cron && \
     rm -rf /var/lib/apt/lists/* && \
     rm /bin/sh && ln -s /bin/bash /bin/sh
 
+ARG DEBUG
+RUN [ ${DEBUG} = "true" ] && (apt update && apt install vim nodejs npm watchman -y) || true
 
 # Setup the required extensions.
 ARG DEBIAN_FRONTEND=noninteractive

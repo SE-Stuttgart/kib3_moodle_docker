@@ -55,6 +55,20 @@ then
     ###
     crontab -u www-data -l | echo "* * * * * /usr/local/bin/php /var/www/html/moodle/admin/cli/cron.php > /dev/null" | crontab -u www-data -
     service cron start
+
+    if [ "$DEBUG" = "true"  ];
+    then 
+        cd /var/www/html/moodle && npm -g install grunt-cli
+        cd /var/www/html/moodle && npm install grunt
+        # we have to adapt the minimum node version to the official debian package sources
+        search='"node": ">=16.14.0 <17"'
+        replace='"node": ">=12.0 <17"'
+        # disable js caching
+        sed -i "s/$search/$replace/" /var/www/html/moodle/package.json
+        target_line="$CFG->admin     = 'admin';"
+        new_line="$CFG->cachejs = false;"
+        sed -i "/$target_line/a $new_line" /var/www/html/moodle/config.php
+    fi
 else
     echo "Found moodle installation"
 fi

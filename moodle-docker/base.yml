@@ -10,6 +10,7 @@ services:
         # - "linux/arm64"
       args:
         COURSE_BACKUP_FILE_ARG: ${COURSE_BACKUP_FILE}
+        DEBUG: ${DEBUG}
     depends_on:
       - db
     volumes:

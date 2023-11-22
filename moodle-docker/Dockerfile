@@ -1,33 +1,12 @@
-FROM php:8.1-fpm-bullseye 
+FROM sheogorath15/kib3:webserver-base-v1
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
-
-# Install some packages that are useful within the images.
-# Cleanup afterwards.
-RUN apt-get update && apt-get install -y \
-        git \
-        sudo \
-        nginx \
-        gettext-base \
-        cron && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm /bin/sh && ln -s /bin/bash /bin/sh
 
 ARG DEBUG
 RUN [ ${DEBUG} = "true" ] && (apt update && apt install vim nodejs npm watchman -y) || true
 
 # Setup the required extensions.
 ARG DEBIAN_FRONTEND=noninteractive
-COPY ./moodle-php-apache/root/tmp/setup/php-extensions.sh \
-     ./moodle-php-apache/root/tmp/setup/oci8-extension.sh \
-     ./moodle-php-apache/root/tmp/setup/moodle-docker-wait-for-it.sh \
-     ./moodle-php-apache/root/tmp/setup/sqlsrv-extension.sh \
-     ./moodle-php-apache/root/tmp/setup/nginx_config.sh \
-     /tmp/setup/
-# Fix the original permissions of /tmp, the PHP default upload tmp dir
-# Then, install php extensions
-RUN chmod -R 777 /tmp && chmod +t /tmp && \ 
-    /tmp/setup/php-extensions.sh 
-    # && /tmp/setup/oci8-extension.sh && \
+COPY ./moodle-php-apache/root/tmp/setup/nginx_config.sh /tmp/setup/
 ENV LD_LIBRARY_PATH /usr/local/instantclient
 # Add configs
 COPY ./moodle-php-apache/root/usr/local/etc/php/conf.d/docker-php-moodle.ini /usr/local/etc/php/conf.d/docker-php-moodle.ini

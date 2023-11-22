@@ -65,8 +65,8 @@ then
         replace='"node": ">=12.0 <17"'
         # disable js caching
         sed -i "s/$search/$replace/" /var/www/html/moodle/package.json
-        target_line="$CFG->admin     = 'admin';"
-        new_line="$CFG->cachejs = false;"
+        target_line="\$CFG->admin\s*=\s*'admin';"
+        new_line="\$CFG->cachejs = false;"
         sed -i "/$target_line/a $new_line" /var/www/html/moodle/config.php
     fi
 else

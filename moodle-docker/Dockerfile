@@ -30,6 +30,7 @@ COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
     ./moodle-php-apache/root/tmp/setup/plugins/add_block_chatbot.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_filters.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_webservices.php \ 
+    ./moodle-php-apache/root/tmp/setup/plugins/configure_badges.php \
     ./moodle-php-apache/root/tmp/setup/plugins/download.sh \ 
     ./moodle-php-apache/root/tmp/setup/plugins/configure.sh \ 
     /tmp/setup/plugins/

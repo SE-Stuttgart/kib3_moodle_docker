@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
         sudo \
         nginx \
         gettext-base \
-        cron && \
+        cron \
+        moreutils && \
     rm -rf /var/lib/apt/lists/* && \
     rm /bin/sh && ln -s /bin/bash /bin/sh
 

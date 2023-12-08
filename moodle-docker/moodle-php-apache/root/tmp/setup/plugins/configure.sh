@@ -1,6 +1,13 @@
 # Load environment variables that are otherwise not visible inside this script
 source /tmp/setup/config.env
 
+# Setup php and moodle memory limits
+envsubst < /usr/local/etc/php/conf.d/docker-php-moodle.ini | sponge /usr/local/etc/php/conf.d/docker-php-moodle.ini
+php /var/www/html/moodle/admin/cli/cfg.php --name=extramemorylimit --set=$MOODLE_SERVER_MEMORY_LIMIT
+
+# Activate all badges
+php /tmp/setup/plugins/configure_badges.php
+
 # Poll database for ID of restored course (once it is ready)
 courseid="NULL";
 while [ "$courseid" = "NULL" ]

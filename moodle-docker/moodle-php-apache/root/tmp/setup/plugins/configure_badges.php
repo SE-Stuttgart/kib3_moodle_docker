@@ -22,10 +22,10 @@ if ($f_restore_info) {
 
 // activate all badges for the restored course
 $counter = 0;
-$badges = $DB->get_records('badges', array('courseid'=>$course_id));
+$badges = $DB->get_records('badge', array('courseid'=>$course_id));
 foreach($badges as $badge) {
     $badge->status = 1;
-    $DB->update_record('badges', $badge);
+    $DB->update_record('badge', $badge);
     $counter = $counter + 1;
 }
 

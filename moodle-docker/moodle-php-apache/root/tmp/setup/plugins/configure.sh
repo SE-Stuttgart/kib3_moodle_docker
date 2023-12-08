@@ -8,6 +8,9 @@ php /var/www/html/moodle/admin/cli/cfg.php --name=extramemorylimit --set=$MOODLE
 # Activate all badges
 php /tmp/setup/plugins/configure_badges.php
 
+# Disable user tours
+php /tmp/setup/plugins/disable_usertours.php
+
 # Poll database for ID of restored course (once it is ready)
 courseid="NULL";
 while [ "$courseid" = "NULL" ]

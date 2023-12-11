@@ -12,14 +12,13 @@ print "SETUP DB DONE\n";
 // Create webservice user: kib3_webservice
 //
 require_once($CFG->libdir."/moodlelib.php");
-// require_once($CFG->libdir."/authlib.php");
-// require_once($CFG->dirroot."/login/lib.php");
 require_once($CFG->dirroot."/user/editlib.php");
 require_once($CFG->dirroot."/user/lib.php");
 $user = new \stdClass();
 $user->firstname = getenv("MOODLE_WEBSERVICE_USER");
 $user->lastname = getenv("MOODLE_WEBSERVICE_USER");
 $user->username = "kib3_webservice";
+$user->email = "kib3@kib3.de";
 $user->auth = "manual";
 $user->password = getenv("MOODLE_WEBSERVICE_PASSWORD");
 $user->confirmed = true;
@@ -51,7 +50,9 @@ print "ADDED ROLE PERMISSIONS\n";
 role_assign($roleid, $userid, $context->id);
 print "ASSIGNED ROLE\n";
 
+//
 // create new webservice: kib3_webservice
+//
 require($CFG->dirroot."/webservice/lib.php");
 $ws = new webservice();
 $ws_id = $ws->add_external_service((object)[
@@ -83,6 +84,31 @@ if(getenv("PLUGIN_SLIDEFINDER") == "true") {
     print "Added slidefinder webservice functions\n";
 }
 
-# generate token
+//
+// enrol webservice user in the course
+//
+require_once($CFG->dirroot."/lib/enrollib.php");
+// get course id
+$f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
+if ($f_restore_info) {
+    while (($line = fgets($f_restore_info)) !== false) {
+        if (strpos($line, 'ID') !== false) {
+            preg_match_all('/\d+/', $line, $matches);
+            $course_id = $matches[0][0];
+            echo "Configure Webservices: Course id: " . $course_id . "\n";
+        }
+    }
+    fclose($f_restore_info);
+} else {
+    echo "Configure Webservices: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
+}
+// enrol
+$instance = $DB->get_record('enrol', ['courseid' => $course_id, 'enrol' => 'manual']);
+$enrolplugin = enrol_get_plugin($instance->enrol);
+$enrolplugin->enrol_user($instance, $userid, $roleid);
+
+//
+// generate token
+//
 $ws->generate_user_ws_tokens($userid);
 print "GENERATED TOKENS\n";

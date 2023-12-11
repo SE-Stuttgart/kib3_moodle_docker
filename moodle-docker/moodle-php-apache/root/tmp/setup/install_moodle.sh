@@ -35,15 +35,17 @@ then
     # configure filters
     php /tmp/setup/plugins/configure_filters.php
 
-    # webservice
-    php /var/www/html/moodle/admin/cli/cfg.php --name=enablewebservices --set=1
-    php /var/www/html/moodle/admin/cli/cfg.php --name=webserviceprotocols --set=rest
-    php /tmp/setup/plugins/configure_webservices.php
-
     ###
     ### Restore course backup
     ###
     sh /tmp/setup/restoreBackup.sh
+
+    ###
+    ### Webservices
+    ###
+    php /var/www/html/moodle/admin/cli/cfg.php --name=enablewebservices --set=1
+    php /var/www/html/moodle/admin/cli/cfg.php --name=webserviceprotocols --set=rest
+    php /tmp/setup/plugins/configure_webservices.php
 
     ###
     ### Configure Plugins that need to know course name (AFTER IMPORTING COURSE)

@@ -12,15 +12,8 @@ php /tmp/setup/plugins/configure_badges.php
 php /tmp/setup/plugins/disable_usertours.php
 
 # Poll database for ID of restored course (once it is ready)
-courseid="NULL";
-while [ "$courseid" = "NULL" ]
-do
-    # Find the line with the string "COURSEID"
-    line=$(cat /tmp/setup/data/restored_course_info.txt | grep "ID")
-    # Extract the value after the equal sign, remove equal characters, trim spaces with xargs
-    courseid=$(echo "$line" | cut -d ':' -f2 | cut -d '=' -f1 | xargs)
-    echo "KURS: ${courseid}"
-done
+courseid=$(cat /tmp/setup/data/restored_course_info.txt)
+echo "KURS: ${courseid}"
 
 if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     # set course id (get course id from backup) - get from database with backup course id

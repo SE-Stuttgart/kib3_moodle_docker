@@ -6,19 +6,7 @@ require($configfile);
 require_once($CFG->libdir.'/dmllib.php');
 setup_DB();
 
-$f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
-if ($f_restore_info) {
-    while (($line = fgets($f_restore_info)) !== false) {
-        if (strpos($line, 'ID') !== false) {
-            preg_match_all('/\d+/', $line, $matches);
-            $course_id = $matches[0][0];
-            echo "Badges: Course id: " . $course_id . "\n";
-        }
-    }
-    fclose($f_restore_info);
-} else {
-    echo "Badges: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
-}
+$course_id = intval(file_get_contents("/tmp/setup/data/restored_course_info.txt"));
 
 // activate all badges for the restored course
 $counter = 0;

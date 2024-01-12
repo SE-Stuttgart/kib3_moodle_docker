@@ -36,9 +36,10 @@ then
     php /tmp/setup/plugins/configure_filters.php
 
     ###
-    ### Restore course backup
+    ### Restore course backup and store course id
     ###
     sh /tmp/setup/restoreBackup.sh
+    php /tmp/setup/get_restored_course_id.php
 
     ###
     ### Webservices

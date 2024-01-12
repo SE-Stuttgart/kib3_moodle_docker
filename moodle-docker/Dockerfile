@@ -35,6 +35,8 @@ COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
     ./moodle-php-apache/root/tmp/setup/plugins/download.sh \ 
     ./moodle-php-apache/root/tmp/setup/plugins/configure.sh \ 
     /tmp/setup/plugins/
+COPY ./moodle-php-apache/root/tmp/setup/get_restored_course_id.php \
+    /tmp/setup/
 RUN source /tmp/setup/config.env && sh /tmp/setup/plugins/download.sh
 
 # Add backup

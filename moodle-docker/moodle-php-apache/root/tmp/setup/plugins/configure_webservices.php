@@ -83,25 +83,34 @@ if(getenv("PLUGIN_SLIDEFINDER") == "true") {
     $ws->add_external_function_to_service("block_slidefinder_get_searched_locations", $ws_id);
     print "Added slidefinder webservice functions\n";
 }
+if(getenv("PLUGIN_CHATBOT") == "true") {
+    $ws->add_external_function_to_service("block_chatbot_get_usersettings", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_section_id", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_section_completionstate", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_branch_quizes_if_complete", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_has_seen_any_course_modules", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_last_viewed_course_modules", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_first_available_course_module", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_course_module_content_link", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_available_new_course_sections", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_icecreamgame_course_module_id", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_next_available_course_module_id", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_count_viewed_course_modules", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_user_statistics", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_last_user_weekly_summary", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_closest_badge", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_badge_info", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_h5pquiz_params", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_get_oldest_worst_grade_attempts", $ws_id);
+    print "Added chatbot webservice functions\n";
+}
 
 //
 // enrol webservice user in the course
 //
 require_once($CFG->dirroot."/lib/enrollib.php");
 // get course id
-$f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
-if ($f_restore_info) {
-    while (($line = fgets($f_restore_info)) !== false) {
-        if (strpos($line, 'ID') !== false) {
-            preg_match_all('/\d+/', $line, $matches);
-            $course_id = $matches[0][0];
-            echo "Configure Webservices: Course id: " . $course_id . "\n";
-        }
-    }
-    fclose($f_restore_info);
-} else {
-    echo "Configure Webservices: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
-}
+$course_id = intval(file_get_contents("/tmp/setup/data/restored_course_info.txt"));
 // enrol
 $instance = $DB->get_record('enrol', ['courseid' => $course_id, 'enrol' => 'manual']);
 $enrolplugin = enrol_get_plugin($instance->enrol);

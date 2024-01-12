@@ -7,20 +7,23 @@ require_once($CFG->libdir.'/dmllib.php');
 setup_DB();
 
 // get course
-$f_restore_info = fopen("/tmp/setup/data/restored_course_info.txt", "r");
-if ($f_restore_info) {
-    while (($line = fgets($f_restore_info)) !== false) {
-        if (strpos($line, 'ID') !== false) {
-            preg_match_all('/\d+/', $line, $matches);
-            $course_id = $matches[0][0];
-            echo "Chatbot: Course id: " . $course_id . "\n";
-        }
-    }
-    fclose($f_restore_info);
-} else {
-    echo "Chatbot: Failed to open the file /tmp/setup/data/restored_course_info.txt\n";
-}
+$course_id = intval(file_get_contents("/tmp/setup/data/restored_course_info.txt"));
 $course = $DB->get_record('course', array('id'=>$course_id));
+
+// activate chatbot for restored course
+if($DB->record_exists("config_plugins", array("plugin" => "block_chatbot", "name" => "courseids"))) {
+    $chatbot_course_ids_config = $DB->get_record("config_plugins", array("plugin" => "block_chatbot", "name" => "courseids"));
+    $chatbot_course_ids_config->value = strval($course->id);
+    $DB->update_record("config_plugins", $chatbot_course_ids_config);
+    echo "\nUpdated chatbot config: Activated for course " . $course->id; 
+} else {
+    $DB->insert_record("config_plugins", array(
+        "plugin" => "block_chatbot",
+        "name" => "courseids",
+        "value" => strval($course->id)
+    ));
+    echo "\nInserted chatbot config: Activated for course " . $course->id; 
+}
 
 // set course page context
 require_once($CFG->libdir.'/blocklib.php');
@@ -30,4 +33,4 @@ $page->set_course($course);
 // add block to course pages (everywhere)
 $page->blocks->add_region(BLOCK_POS_RIGHT, false);
 $page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, '*');
-print "Added chatbot block to course".$course->id."\n";
+print "\nAdded chatbot block to course".$course->id."\n";

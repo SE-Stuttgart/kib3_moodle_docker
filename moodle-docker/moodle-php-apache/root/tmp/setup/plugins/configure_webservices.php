@@ -85,6 +85,7 @@ if(getenv("PLUGIN_SLIDEFINDER") == "true") {
 }
 if(getenv("PLUGIN_CHATBOT") == "true") {
     $ws->add_external_function_to_service("block_chatbot_get_usersettings", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_set_usersettings", $ws_id);
     $ws->add_external_function_to_service("block_chatbot_get_section_id", $ws_id);
     $ws->add_external_function_to_service("block_chatbot_get_section_completionstate", $ws_id);
     $ws->add_external_function_to_service("block_chatbot_get_branch_quizes_if_complete", $ws_id);

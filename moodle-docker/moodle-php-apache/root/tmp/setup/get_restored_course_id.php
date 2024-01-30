@@ -6,6 +6,10 @@ require($configfile);
 require_once($CFG->libdir.'/dmllib.php');
 setup_DB();
 
-$course = $DB->get_record('course', array('fullname' => "KI B3 Zusatzqualifikation KI und Maschinelles Lernen Version 2.0"));
+$_likesql_coursename = $DB->sql_like('fullname', ':coursename');
+$course = $DB->get_record_sql("SELECT * FROM {course} WHERE $_likesql_coursename",
+                               array(
+                                "coursename" => "%Zusatzqualifikation KI und Maschinelles Lernen%"
+                               ));
 echo "\nRESTORED COURSE ID: " . $course->id;
 file_put_contents("/tmp/setup/data/restored_course_info.txt", strval($course->id));

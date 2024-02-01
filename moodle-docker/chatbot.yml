@@ -14,9 +14,6 @@ services:
     depends_on:
       - db
       - webserver
-    command: # >
-      #bash -c "cd /chatbot/
-      #&& python run_server.py"
-      ["tail", "-f", "/dev/null"]
+    command: sh -c "${CHATBOTCOMMAND}"
     ports:
       - "44123:44123"

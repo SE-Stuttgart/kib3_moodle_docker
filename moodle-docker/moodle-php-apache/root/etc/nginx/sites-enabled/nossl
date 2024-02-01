@@ -3,6 +3,8 @@ server {
     listen [::]:80;
     server_name ${SERVER_NAME};
 
+    client_max_body_size 512M;
+
     access_log  /var/log/nginx/proxy_access.log;
     error_log   /var/log/nginx/proxy_error.log;
 
@@ -14,5 +16,7 @@ server {
 
         access_log  /var/log/nginx/proxy_inside_access.log;
         error_log   /var/log/nginx/proxy_inside_error.log;
+
+        client_max_body_size 512M;
     }
 }

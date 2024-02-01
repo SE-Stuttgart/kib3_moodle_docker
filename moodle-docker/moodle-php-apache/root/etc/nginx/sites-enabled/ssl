@@ -2,6 +2,8 @@ server {
     listen 80;
     listen [::]:80;
 
+    client_max_body_size 512M;
+
     server_name ${SERVER_NAME};
     return 301 https://${SERVER_NAME}$request_uri;
 }
@@ -9,6 +11,8 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
+
+    client_max_body_size 512M;
 
     server_name ${SERVER_NAME};
 
@@ -26,5 +30,7 @@ server {
 
         access_log  /var/log/nginx/proxy_inside_access.log;
         error_log   /var/log/nginx/proxy_inside_error.log;
+
+        client_max_body_size 512M;
     }
 }

@@ -3,6 +3,8 @@ server {
     root /var/www/html/moodle;
     index index.html index.htm index.php;
 
+    client_max_body_size 512M;
+
     # access_log  /var/log/nginx/moodle_access.log;
     # error_log   /var/log/nginx/moode_error.log;
 
@@ -13,5 +15,7 @@ server {
         include                  fastcgi_params;
         fastcgi_param   PATH_INFO       $fastcgi_path_info;
         fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+        client_max_body_size 512M;
     }
 }

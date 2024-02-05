@@ -6,9 +6,6 @@ services:
   chatbot:
     build: 
       context: ./chatbot/
-      platforms:
-        - "linux/amd64"
-        # - "linux/arm64"
     env_file:
       - config.env
     depends_on:

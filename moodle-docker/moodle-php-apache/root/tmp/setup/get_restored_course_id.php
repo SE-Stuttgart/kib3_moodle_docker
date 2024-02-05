@@ -11,7 +11,19 @@ echo "\nReading course name from backup file: $backup_file";
 try {
     // Extract XML file describing the course backup
     $tar = new PharData($backup_file);
-    $tar->extractTo("./data", "./moodle_backup.xml", true);
+    try {
+        echo "\nTrying to extract moodle_backup.xml from top level of mbz file";
+        $tar->extractTo("./data", "./moodle_backup.xml", true);
+    } catch (Exception $e) {
+        // handle errors
+        try {
+            echo "\nTrying to extract moodle_backup.xml from root of mbz file";
+            $tar->extractTo("./data", "moodle_backup.xml", true);
+        } catch (Exception $e) {
+            // handle errors
+            echo $e;
+        }
+    }
     
     // Parse the XML file describing the course backup
     $xmlString = file_get_contents('./data/moodle_backup.xml');

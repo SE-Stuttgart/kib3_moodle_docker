@@ -31,6 +31,10 @@ $page = new moodle_page();
 $page->set_course($course);
 
 // add block to course pages (everywhere)
-$page->blocks->add_region(BLOCK_POS_RIGHT, false);
-$page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, '*');
-print "\nAdded chatbot block to course".$course->id."\n";
+if(!$DB->record_exists('block_instances', array('blockname' => "chatbot"))) {
+    $page->blocks->add_region(BLOCK_POS_RIGHT, false);
+    $page->blocks->add_block('chatbot', BLOCK_POS_RIGHT, 1, true, '*');
+    echo "\nAdded chatbot block to course" . $course->id."\n";
+} else {
+    echo "\nFound existing chatbot block in course" . $course->id."\n";
+}

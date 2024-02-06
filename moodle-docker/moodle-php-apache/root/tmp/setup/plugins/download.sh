@@ -8,7 +8,7 @@ cd /var/www/html/moodle/filter && curl "https://moodle.org/plugins/download.php/
 
 if [ "$PLUGIN_TILES" = true ]; then
     echo "Downloading Format Tiles Plugin..."
-    cd /var/www/html/moodle/course/format && curl "https://moodle.org/plugins/download.php/28650/format_tiles_${PLUGIN_TILES_FORMAT_VERSION}.zip" --output tiles.zip && unzip tiles.zip && rm tiles.zip
+    cd /var/www/html/moodle/course/format && curl "https://moodle.org/plugins/download.php/28680/format_tiles_${PLUGIN_TILES_FORMAT_VERSION}.zip" --output tiles.zip && unzip tiles.zip && rm tiles.zip
 fi 
 
 if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then

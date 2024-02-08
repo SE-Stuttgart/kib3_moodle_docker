@@ -25,6 +25,10 @@ if($DB->record_exists("config_plugins", array("plugin" => "block_chatbot", "name
     echo "\nInserted chatbot config: Activated for course " . $course->id; 
 }
 
+// sync moodle course module views / completions with chatbot (for restored course)
+require_once($CFG->dirroot . "/blocks/chatbot/lib.php");
+sync_course_module_history($course_id);
+
 // set course page context
 require_once($CFG->libdir.'/blocklib.php');
 $page = new moodle_page();

@@ -16,8 +16,8 @@ server {
 
     server_name ${SERVER_NAME};
 
-    ssl_certificate /etc/ssl/moodle_certificate.crt;
-    ssl_certificate_key /etc/ssl/moodle.key;
+    ssl_certificate /etc/ssl/certs/moodle_certificate.crt;
+    ssl_certificate_key /etc/ssl/private/moodle.key;
 
     access_log  /var/log/nginx/proxy_access.log;
     error_log   /var/log/nginx/proxy_error.log;

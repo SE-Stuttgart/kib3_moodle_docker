@@ -66,6 +66,22 @@ fi
 if [ "$PLUGIN_CHATBOT" == true ];
 then
     dockercompose="${dockercompose} -f ${basedir}/chatbot.yml"
+    # SSL.
+    if [ "$MOODLE_SERVER_SSL" == true ];
+    then
+      echo "Setting up Chatbot SSL";
+      if [[ $MOODLE_SERVER_URL != https://* ]]; then
+        echo "Error: configuration option MOODLE_SERVER_SSL is set to TRUE, but MOODLE_SERVER_URL does not start with https://"
+        exit 1
+      fi
+      cp "${MOODLE_SERVER_SSL_CERTIFICATE_FILE}" "${basedir}/chatbot/moodle_certificate.crt"
+      cp "${MOODLE_SERVER_SSL_PRIVATE_KEY_FILE}" "${basedir}/chatbot/moodle.key"
+    else
+      if [[ $MOODLE_SERVER_URL != http://* ]]; then
+          echo "Error: configuration option MOODLE_SERVER_SSL is set to FALSE, but MOODLE_SERVER_URL does not start with http://"
+          exit 1
+        fi
+    fi
 fi
 
 if [ "$DEBUG" == true ];

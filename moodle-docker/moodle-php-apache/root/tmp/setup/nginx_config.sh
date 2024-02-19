@@ -17,8 +17,8 @@ if [ "$MOODLE_SERVER_SSL" = true ]; then
     envsubst < /etc/nginx/sites-enabled/ssl > /etc/nginx/sites-enabled/default
     # delete unsubstituted ssl config file
     # move certificate and key
-    mv /etc/nginx/moodle_certificate.crt /etc/ssl/moodle_certificate.crt
-    mv /etc/nginx/moodle.key /etc/ssl/moodle.key
+    mv /etc/nginx/moodle_certificate.crt /etc/ssl/certs/moodle_certificate.crt
+    mv /etc/nginx/moodle.key /etc/ssl/private/moodle.key
     echo "Done."
 else
     echo "Setting up nginx without SSL"

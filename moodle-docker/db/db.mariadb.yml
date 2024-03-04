@@ -24,6 +24,6 @@ services:
       MYSQL_PASSWORD: ${MOODLE_DOCKER_DBPASS}
       MYSQL_DATABASE: ${MOODLE_DOCKER_DBNAME}
     ports:
-      - "3306:${MOODLE_DOCKER_DBPORT}"
+      - "${MOODLE_DOCKER_DBPORT}:3306"
 volumes:
   moodle-database:

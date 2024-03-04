@@ -84,6 +84,12 @@ then
     fi
 fi
 
+# Jupyter 
+if [ "$PLUGIN_JUPYTER" == true ];
+then
+  dockercompose="${dockercompose} -f ${basedir}/jupyter.yml"
+fi 
+
 if [ "$DEBUG" == true ];
 then
   export CHATBOTCOMMAND="tail -f /dev/null"

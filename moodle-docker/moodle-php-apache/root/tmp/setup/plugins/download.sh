@@ -31,7 +31,6 @@ if [ "$PLUGIN_STUDENT_REPORT_GENERATION" = true ]; then
     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_srg.git /var/www/html/moodle/mod/srg --branch ${PLUGIN_STUDENT_REPORT_GENERATION_VESION}
 fi
 
-
 if [ "$PLUGIN_ICECREAMGAME" = true ]; then 
     echo "Downloading Icecreamgame Plugin..."
     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_icecreamgame.git /var/www/html/moodle/mod/icecreamgame
@@ -41,3 +40,9 @@ if [ "$PLUGIN_CHATBOT" = true ]; then
     echo "Downloading Chatbot Plugin..."
     git clone https://github.com/SE-Stuttgart/kib3_moodle_chatbot_frontend.git /var/www/html/moodle/blocks/chatbot
 fi
+
+if [ "$PLUGIN_JUPYTER" = true ]; then 
+    echo "Downloading Chatbot Plugin..."
+    git clone https://github.com/SE-Stuttgart/moodle-mod_jupyter.git /var/www/html/moodle/mod/jupyter
+fi
+

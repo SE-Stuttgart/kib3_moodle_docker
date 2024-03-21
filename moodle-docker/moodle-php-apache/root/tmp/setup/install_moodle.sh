@@ -12,10 +12,11 @@ echo "Done"
 if [ ! -f /var/www/html/moodle/config.php ];
 then 
     ### Install moodle
-    echo "Installing moodle..."
+    echo "=== Installing moodle... === "
 
     sudo chmod +x /tmp/setup/moodle-docker-wait-for-it.sh 
     sudo -u www-data /tmp/setup/moodle-docker-wait-for-it.sh db:$MOODLE_DOCKER_DBPORT -- php /var/www/html/moodle/admin/cli/install.php --lang=de --chmod=777 --wwwroot=$MOODLE_SERVER_URL --dataroot=/var/www/html/moodledata --adminuser=$MOODLE_ADMIN_USER --adminpass=$MOODLE_ADMIN_PASSWORD --adminemail=$MOODLE_ADMIN_EMAIL --non-interactive --allow-unstable --agree-license --dbtype=$MOODLE_DOCKER_DBTYPE --dbhost="db" --dbport=$MOODLE_DOCKER_DBPORT  --dbname=$MOODLE_DOCKER_DBNAME --dbuser=$MOODLE_DOCKER_DBUSER --dbpass=$MOODLE_DOCKER_DBPASS --fullname=$MOODLE_FULL_NAME --shortname=$MOODLE_SHORT_NAME
+    echo "=== Done installing moodle ==="
 
     ###
     ### Configure moodle BEFORE IMPORTING COURSE
@@ -26,27 +27,34 @@ then
     # enable ssl
     if [ "$MOODLE_SERVER_SSL" = true ];
     then
+        echo "=== Configuring reverse proxy for SSL ==="
         sed -i '/^$CFG->wwwroot.*/a $CFG->sslproxy = true;' /var/www/html/moodle/config.php
     fi
 
     # increase limit of sections per course (required to restore backup)
+    echo "=== Increasing limit of sections per course ==="
     php /var/www/html/moodle/admin/cli/cfg.php --component=moodlecourse --name=maxsections --set=150
 
     # configure filters
+    echo "=== Configuring filters ==="
     php /tmp/setup/plugins/configure_filters.php
 
     ###
     ### Restore course backup and store course id
     ###
+    echo "=== Restoring Backup ==="
     sh /tmp/setup/restoreBackup.sh
+    echo "=== Done restoring backup ==="
     php /tmp/setup/get_restored_course_id.php
 
     ###
     ### Webservices
     ###
+    echo "=== Setting up webservices ==="
     php /var/www/html/moodle/admin/cli/cfg.php --name=enablewebservices --set=1
     php /var/www/html/moodle/admin/cli/cfg.php --name=webserviceprotocols --set=rest
     php /tmp/setup/plugins/configure_webservices.php
+    echo "=== Done setting up webservices ==="
 
     ###
     ### Configure Plugins that need to know course name (AFTER IMPORTING COURSE)

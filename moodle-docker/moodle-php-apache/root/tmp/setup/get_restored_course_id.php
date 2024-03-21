@@ -5,7 +5,7 @@ define('CLI_SCRIPT', true);
 ini_set('memory_limit', getenv("MOODLE_SERVER_MEMORY_LIMIT"));
 
 $backup_file = "/tmp/setup/data/" . getenv("COURSE_BACKUP_FILE");
-echo "\nReading course name from backup file: $backup_file";
+echo "\n=== Reading course name from backup file: $backup_file ===";
 
 // Extract the tar file contents to a temporary directory
 try {
@@ -52,3 +52,4 @@ catch (Exception $e) {
     // handle errors
     echo $e;
 }
+echo "=== Done getting restored course id ===";

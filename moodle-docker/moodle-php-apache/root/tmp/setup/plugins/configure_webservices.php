@@ -7,7 +7,6 @@ print "LIB DIR".$CFG->libdir.'\n';
 require_once($CFG->libdir."/dmllib.php");
 setup_DB();
 
-print "SETUP DB DONE\n";
 //
 // Create webservice user: kib3_webservice
 //

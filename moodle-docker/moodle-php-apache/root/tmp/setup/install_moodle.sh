@@ -68,12 +68,22 @@ then
     service cron start
 
     if [ "$DEBUG" = "true"  ];
-    then 
-        cd /var/www/html/moodle && npm -g install grunt-cli
-        cd /var/www/html/moodle && npm install grunt
-        # we have to adapt the minimum node version to the official debian package sources
-        search='"node": ">=16.14.0 <17"'
-        replace='"node": ">=12.0 <17"'
+    then
+        source ~/.bashrc
+        echo "NVM Version" 
+        nvm --version
+        # install node version
+        echo "Install nvm"
+        cd /var/www/html/moodle && nvm install
+        nvm --version
+        echo "Install dependencies"
+        # install node dependencies
+        cd /var/www/html/moodle && nvm use && npm install && npm install eslint-plugin-babel
+        echo "Install Grunt"
+        # install grunt
+        cd /var/www/html/moodle && nvm use && npm install -g grunt grunt-cli
+        echo "Disabje js caching"
+
         # disable js caching
         sed -i "s/$search/$replace/" /var/www/html/moodle/package.json
         target_line="\$CFG->admin\s*=\s*'admin';"

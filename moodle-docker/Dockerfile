@@ -2,7 +2,9 @@ FROM sheogorath15/kib3:webserver-base-v1
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
 ARG DEBUG
-RUN [ ${DEBUG} = "true" ] && (apt update && apt install vim nodejs npm watchman -y) || true
+RUN [ ${DEBUG} = "true" ] && (apt update && apt install vim watchman -y) && \
+      (curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash) \
+    || true
 
 # Setup the required extensions.
 ARG DEBIAN_FRONTEND=noninteractive

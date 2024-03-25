@@ -1,1 +1,9 @@
 local.yml
+*.crt
+*.key
+*.pem
+*.srl
+*.csr
+*.ext
+*.mbz
+.DS_Store

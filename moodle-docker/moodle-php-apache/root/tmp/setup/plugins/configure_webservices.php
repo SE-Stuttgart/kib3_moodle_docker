@@ -103,6 +103,8 @@ if(getenv("PLUGIN_CHATBOT") == "true") {
     $ws->add_external_function_to_service("block_chatbot_get_h5pquiz_params", $ws_id);
     $ws->add_external_function_to_service("block_chatbot_get_oldest_worst_grade_attempts", $ws_id);
     $ws->add_external_function_to_service("block_chatbot_log_interaction", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_count_completed_course_modules", $ws_id);
+    $ws->add_external_function_to_service("block_chatbot_serach_glossary", $ws_id);
     print "Added chatbot webservice functions\n";
 }
 

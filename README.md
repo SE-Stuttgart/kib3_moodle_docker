@@ -1,15 +1,32 @@
 # moodle_docker
-Automated Distribution of Moodle, Plugins and Teaching Materials
+
+Automated Distribution of Moodle, Plugins and Teaching Materials for the KIB3 Courses (Currently only Zusatzqualifikation, we will add support for DQR5 soon).
 
 ## Installation 
 0. Install [Docker desktop](https://www.docker.com/products/docker-desktop/)
-   (FOR WINDOWS USERS: Requires to [activate optional windows feature](https://learn.microsoft.com/en-us/windows/application-management/add-apps-and-features) `Windows Subsystem for Linux`)
+   (FOR WINDOWS USERS: Requires to [activate optional windows feature](https://learn.microsoft.com/en-us/windows/application-management/add-apps-and-features) `Windows Subsystem for Linux` - see the [German WSL Installation Guide](https://github.com/SE-Stuttgart/kib3_moodle_docker/blob/main/install_wsl.md))
 1. Clone this repository (or download as a .zip file and extract)
 2. Change directory to the directory containing the ``config.env`` file
-3. IMPORTANT: CHANGE ALL PASSWORDS AND USERNAMES IN ``config.env`` !!! Also, if you don't want SSL, set it to false (otherwise, set the certificate and key file paths). 
-4. Copy a full course backup into this directory
-5. Open `config.env` and edit the variables to your liking (e.g., name of moodle, admin credentials, ...)
-  - MAKE SURE TO CHANGE THE VALUE OF `COURSE_BACKUP_FILE` to the name of the backup file
+3. Copy a full moodle course backup into this directory (file ending with `.mbz`)
+5. Open `config.env` and edit the variables to your liking
+  - Make sure to change the value of `COURSE_BACKUP_FILE` to the name of the backup file you copied in step 3.
+  - We recommend not changing the default Moodle & Plugin versions and plugin selection, as this could lead to errors.
+  - Change the value of `MOODLE_SERVER_URL` to the URL or IP adress of your server hosting this moodle instance (including protocol: `http` / `https` and port, if not `80`).
+  - Change the value of `MOODLE_SERVER_PORT` to the port you want to serve moodle from. Default for http is `80`, if you want to test locally, choose something different (e.g. `8081`).
+  - If you want to use SSL (protocol `https`):
+    - Change `MOODLE_SERVER_SSL` to `true`.
+    - Copy your SSL certificate (file ending in `.crt`) and SSL certificate private key into the same folder as the course backup (step 3).
+    - Change the values of `MOODLE_SERVER_SSL_CERTIFICATE_FILE` and `MOODLE_SERVER_SSL_PRIVATE_KEY_FILE` to point to the files you just copied.
+  - IMPORTANT: CHANGE THE FOLLIWING PASSWORDS AND USERNAMES:
+    - `MOODLE_DOCKER_DBROOTPASS`
+    - `MOODLE_DOCKER_DBUSER`
+    - `MOODLE_DOCKER_DBPASS`
+    - `MOODLE_ADMIN_USER`
+    - `MOODLE_ADMIN_PASSWORD`
+    - `MOODLE_WEBSERVICE_PASSWORD` (**DO NOT CHANGE `MOODLE_WEBSERVICE_USER`**)
+    - `JUPYTER_API_TOKEN`
+    - `POSTGRES_PASSWORD`
+    - `JWT_SECRET`
 5. Execute `./bin/moodle-docker-compose up -d` (this might take a while).
    
   (FOR WINDOWS USERS: if you get an error message like _WSL Kernel version is too low_, you can upgrade it by opening a terminal end executing the command ``wsl --update``. Then, re-try this step)
@@ -19,7 +36,7 @@ Automated Distribution of Moodle, Plugins and Teaching Materials
   Then, click the `moodle-docker` container. This opens a log view. Watch this log to see when the installation finished:
  ![Bildschirmfoto 2023-08-23 um 16 56 48](https://media.github.tik.uni-stuttgart.de/user/3040/files/b8014a87-fd4e-4981-b144-dc641cfe4d41)
  
-6. Once the container is running, you can access it through http://localhost:8000 in your browser
+6. Once the container is running, you can access it through e.g. http://localhost:8081 (if using default confiuration, otherwise navigate to the value you specified in  `MOODLE_SERVER_URL`) in your browser.
 
 7. Use the admin credentials from ``config.env`` to log in. You should see the restored course now.
 

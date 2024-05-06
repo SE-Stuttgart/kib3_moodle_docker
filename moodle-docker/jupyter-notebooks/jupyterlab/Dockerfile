@@ -14,6 +14,6 @@ RUN mkdir -p ${CONDA_DIR}/share/jupyter/lab/settings
 RUN cp /jupyter/jupyterlab/overrides.json ${CONDA_DIR}/share/jupyter/lab/settings/overrides.json
 
 ARG MOODLE_SERVER_URL
-RUN sed -i "s/\"Content-Security-Policy\": \"\(.*\)\"/\"Content-Security-Policy\": \"\1 ${MOODLE_SERVER_URL}\"/" /jupyter/jupyterlab/jupyter_notebook_config.py
+RUN sed -i "s#\"Content-Security-Policy\": \"\(.*\)\"#\"Content-Security-Policy\": \"\1 ${MOODLE_SERVER_URL}\"#" /jupyter/jupyterlab/jupyter_notebook_config.py 
 
 RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"

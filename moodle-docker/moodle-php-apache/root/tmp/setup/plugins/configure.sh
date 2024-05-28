@@ -23,10 +23,10 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     echo "Done."
 fi
 
-if [ "$PLUGIN_SLIDEFINDER" = true ]; then
-    echo "Configuring plugin slidefinder..."
-    # this will add the slidefinder block to the right for all course pages
-    php /tmp/setup/plugins/add_block_slidefinder.php
+if [ "$PLUGIN_BOOKSEARCH" = true ]; then
+    echo "Configuring plugin booksearch..."
+    # this will add the booksearch block to the right for all course pages
+    php /tmp/setup/plugins/add_block_booksearch.php
     echo "Done."
 fi
 

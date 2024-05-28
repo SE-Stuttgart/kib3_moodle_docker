@@ -28,7 +28,7 @@ RUN source /tmp/setup/config.env &&\
 COPY .eslintrc /var/www/html/moodle/.eslintrc
 
 # Download plugins
-COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_slidefinder.php \
+COPY ./moodle-php-apache/root/tmp/setup/plugins/add_block_booksearch.php \
     ./moodle-php-apache/root/tmp/setup/plugins/add_block_chatbot.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_filters.php \
     ./moodle-php-apache/root/tmp/setup/plugins/configure_webservices.php \ 

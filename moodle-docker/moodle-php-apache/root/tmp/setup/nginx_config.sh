@@ -7,6 +7,10 @@ source /tmp/setup/config.env
 # set server name (without http(s)):
 export SERVER_NAME=${MOODLE_SERVER_URL//https:\/\//}
 export SERVER_NAME=${SERVER_NAME//http:\/\//} 
+export JUPYTER_HUB_PORT=${JUPYTER_HUB_PORT}
+
+echo "- Server name: ${SERVER_NAME}"
+echo "- Jupyter hub port: ${JUPYTER_HUB_PORT}"
 
 if [ "$MOODLE_SERVER_SSL" = true ]; then
     echo "Setting up nginx for SSL"
@@ -14,7 +18,7 @@ if [ "$MOODLE_SERVER_SSL" = true ]; then
     rm /etc/nginx/sites-enabled/default
     
     # replace server name with environment variables
-    envsubst < /etc/nginx/sites-enabled/ssl > /etc/nginx/sites-enabled/default
+    envsubst '${SERVER_NAME} ${JUPYTER_HUB_PORT}' < /etc/nginx/sites-enabled/ssl > /etc/nginx/sites-enabled/default
     # delete unsubstituted ssl config file
     # move certificate and key
     mv /etc/nginx/moodle_certificate.crt /etc/ssl/certs/moodle_certificate.crt
@@ -23,7 +27,7 @@ if [ "$MOODLE_SERVER_SSL" = true ]; then
 else
     echo "Setting up nginx without SSL"
     # replace server name with environment variables
-    envsubst < /etc/nginx/sites-enabled/nossl > /etc/nginx/sites-enabled/default
+    envsubst '${SERVER_NAME} ${JUPYTER_HUB_PORT}' < /etc/nginx/sites-enabled/nossl > /etc/nginx/sites-enabled/default
     echo "Done."
 fi
 

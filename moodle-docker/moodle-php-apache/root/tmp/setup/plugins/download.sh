@@ -21,9 +21,9 @@ if [ "$PLUGIN_H5P" = true ]; then
     cd /var/www/html/moodle/mod && curl "https://moodle.org/plugins/download.php/28179/mod_hvp_${PLUGIN_HVP_VERSION}.zip" --output hvp.zip && unzip hvp.zip && rm hvp.zip
 fi
 
-if [ "$PLUGIN_SLIDEFINDER" = true ]; then 
-    echo "Downloading Slidefinder Plugin..."
-    git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_slidefinder.git /var/www/html/moodle/blocks/slidefinder
+if [ "$PLUGIN_BOOKSEARCH" = true ]; then 
+    echo "Downloading Booksearch Plugin..."
+    git clone https://github.com/SE-Stuttgart/moodle-block_booksearch.git /var/www/html/moodle/blocks/booksearch
 fi
 
 if [ "$PLUGIN_STUDENT_REPORT_GENERATION" = true ]; then 

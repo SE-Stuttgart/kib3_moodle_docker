@@ -78,9 +78,9 @@ if(getenv("PLUGIN_ICECREAMGAME") == "true") {
     $ws->add_external_function_to_service("mod_icecreamgame_sendgrade", $ws_id);
     print "Added icecreamgame webservice functions\n";
 }
-if(getenv("PLUGIN_SLIDEFINDER") == "true") {
-    $ws->add_external_function_to_service("block_slidefinder_get_searched_locations", $ws_id);
-    print "Added slidefinder webservice functions\n";
+if(getenv("PLUGIN_BOOKSEARCH") == "true") {
+    $ws->add_external_function_to_service("block_booksearch_get_searched_locations", $ws_id);
+    print "Added booksearch webservice functions\n";
 }
 if(getenv("PLUGIN_CHATBOT") == "true") {
     $ws->add_external_function_to_service("block_chatbot_get_usersettings", $ws_id);

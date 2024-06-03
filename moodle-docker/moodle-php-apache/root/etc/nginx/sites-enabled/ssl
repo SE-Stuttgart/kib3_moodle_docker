@@ -22,27 +22,27 @@ server {
     access_log  /var/log/nginx/proxy_access.log;
     error_log   /var/log/nginx/proxy_error.log;
 
-    location /hub {
-        include /etc/nginx/conf.d/proxy.conf;
-        proxy_pass http://jupyterhub:${JUPYTER_HUB_PORT}/hub;
-        proxy_redirect http://jupyterhub:${JUPYTER_HUB_PORT}/hub http://;
+    # location /hub {
+    #     include /etc/nginx/conf.d/proxy.conf;
+    #     proxy_pass http://jupyterhub:${JUPYTER_HUB_PORT}/hub;
+    #     proxy_redirect http://jupyterhub:${JUPYTER_HUB_PORT}/hub http://;
 
-        access_log  /var/log/nginx/jupyterhub_access.log;
-        error_log   /var/log/nginx/jupyterhub_error.log;
+    #     access_log  /var/log/nginx/jupyterhub_access.log;
+    #     error_log   /var/log/nginx/jupyterhub_error.log;
 
-        client_max_body_size 512M;
-    }
+    #     client_max_body_size 512M;
+    # }
 
-    location /jhub {
-        include /etc/nginx/conf.d/proxy.conf;
-        proxy_pass http://jupyterhub:${JUPYTER_HUB_PORT}/jhub;
-        proxy_redirect http://jupyterhub:${JUPYTER_HUB_PORT}/jhub http://;
+    # location /jhub {
+    #     include /etc/nginx/conf.d/proxy.conf;
+    #     proxy_pass http://jupyterhub:${JUPYTER_HUB_PORT}/jhub;
+    #     proxy_redirect http://jupyterhub:${JUPYTER_HUB_PORT}/jhub http://;
 
-        access_log  /var/log/nginx/jupyterhub_access.log;
-        error_log   /var/log/nginx/jupyterhub_error.log;
+    #     access_log  /var/log/nginx/jupyterhub_access.log;
+    #     error_log   /var/log/nginx/jupyterhub_error.log;
 
-        client_max_body_size 512M;
-    }
+    #     client_max_body_size 512M;
+    # }
 
     # pass all requests to moodle listening on port 9000
     location / {

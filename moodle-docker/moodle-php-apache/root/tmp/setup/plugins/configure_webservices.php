@@ -76,6 +76,9 @@ if(getenv("PLUGIN_ICECREAMGAME") == "true") {
     $ws->add_external_function_to_service("mod_icecreamgame_assigngroup", $ws_id);
     $ws->add_external_function_to_service("mod_icecreamgame_addguess", $ws_id);
     $ws->add_external_function_to_service("mod_icecreamgame_sendgrade", $ws_id);
+    $ws->add_external_function_to_service("mod_icecreamgame_reset_group", $ws_id);
+    $ws->add_external_function_to_service("mod_icecreamgame_get_instance_members", $ws_id);
+    $ws->add_external_function_to_service("mod_icecreamgame_reassign_member", $ws_id);
     print "Added icecreamgame webservice functions\n";
 }
 if(getenv("PLUGIN_BOOKSEARCH") == "true") {

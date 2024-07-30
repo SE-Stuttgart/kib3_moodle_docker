@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-bullseye 
+FROM php:8.1.29-fpm-bullseye
 ARG TARGETPLATFORM && ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
 # Install some packages that are useful within the images.

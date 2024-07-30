@@ -8,7 +8,7 @@ cd /var/www/html/moodle/filter && curl "https://moodle.org/plugins/download.php/
 
 if [ "$PLUGIN_TILES" = true ]; then
     echo "Downloading Format Tiles Plugin..."
-    cd /var/www/html/moodle/course/format && curl "https://moodle.org/plugins/download.php/28680/format_tiles_${PLUGIN_TILES_FORMAT_VERSION}.zip" --output tiles.zip && unzip tiles.zip && rm tiles.zip
+    cd /var/www/html/moodle/course/format && curl "https://moodle.org/plugins/download.php/32557/format_tiles_${PLUGIN_TILES_FORMAT_VERSION}.zip" --output tiles.zip && unzip tiles.zip && rm tiles.zip
 fi 
 
 if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
@@ -23,7 +23,7 @@ fi
 
 if [ "$PLUGIN_BOOKSEARCH" = true ]; then 
     echo "Downloading Booksearch Plugin..."
-    git clone https://github.com/SE-Stuttgart/moodle-block_booksearch.git /var/www/html/moodle/blocks/booksearch
+    git clone -b fix-webservice-results https://github.com/SE-Stuttgart/moodle-block_booksearch.git /var/www/html/moodle/blocks/booksearch
 fi
 
 if [ "$PLUGIN_STUDENT_REPORT_GENERATION" = true ]; then 

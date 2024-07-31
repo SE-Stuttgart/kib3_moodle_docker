@@ -19,7 +19,7 @@ RUN sh /tmp/setup/nginx_config.sh
 
 # Download moodle
 RUN source /tmp/setup/config.env &&\
-    git clone --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html/moodle && \
+    git clone --depth=1 --branch $MOODLE_VERSION https://github.com/moodle/moodle.git /var/www/html/moodle && \
     mkdir /var/www/html/moodledata && chown www-data /var/www/html/moodledata && \
     chmod -R 777 /var/www/html/moodle && \
     chmod -R 777 /var/www/html/moodledata

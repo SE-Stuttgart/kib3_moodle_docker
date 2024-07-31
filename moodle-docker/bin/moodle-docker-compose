@@ -7,11 +7,11 @@ set -e
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 
-echo "Basedir" . $basedir
+echo "Basedir" . "$basedir"
 
 # Export all envionment variables
 set -a
-source $basedir/config.env
+source "$basedir"/config.env
 set +a
 # Test 
 echo "Course backup file: ${COURSE_BACKUP_FILE}"
@@ -21,13 +21,13 @@ export ASSETDIR="${basedir}/assets"
 # Test if we have docker compose v2, and keep quiet if we don't.
 ver=$(docker compose version > /dev/null 2>&1 && docker compose version --short) || true
 if [[ $ver =~ ^v?2 ]]; then
-  dockercompose="docker compose"
+  dockercompose=(docker compose)
 else
   echo 'Compose v2 is not available in Docker CLI, falling back to use docker-compose script'
-  dockercompose="docker-compose"
+  dockercompose=(docker-compose)
 fi
-dockercompose="${dockercompose} -f ${basedir}/base.yml"
-dockercompose="${dockercompose} -f ${basedir}/service.mail.yml"
+dockercompose+=(-f "${basedir}/base.yml")
+dockercompose+=(-f "${basedir}/service.mail.yml")
 
 # PHP Version.
 export MOODLE_DOCKER_PHP_VERSION=${MOODLE_DOCKER_PHP_VERSION:-8.1}
@@ -40,7 +40,7 @@ then
     echo "Error: configuration option MOODLE_SERVER_SSL is set to TRUE, but MOODLE_SERVER_URL does not start with https://"
     exit 1
   fi
-  dockercompose="${dockercompose} -f ${basedir}/ssl/webserver.ssl.port.yml"
+  dockercompose+=(-f "${basedir}/ssl/webserver.ssl.port.yml")
   cp "${MOODLE_SERVER_SSL_CERTIFICATE_FILE}" "${basedir}/moodle-php-apache/root/etc/nginx/moodle_certificate.crt"
   cp "${MOODLE_SERVER_SSL_PRIVATE_KEY_FILE}" "${basedir}/moodle-php-apache/root/etc/nginx/moodle.key"
 else
@@ -51,21 +51,21 @@ else
 fi
 
 # Database flavour.
-dockercompose="${dockercompose} -f ${basedir}/db/db.${MOODLE_DOCKER_DB}.yml"
+dockercompose+=(-f "${basedir}/db/db.${MOODLE_DOCKER_DB}.yml")
 
 # Add support for version specific database settings.
-if [ ! -z "$MOODLE_DOCKER_DB_VERSION" ];
+if [ -n "$MOODLE_DOCKER_DB_VERSION" ];
 then
     filename="${basedir}/db.${MOODLE_DOCKER_DB}.${MOODLE_DOCKER_DB_VERSION}.yml"
-    if [ -f $filename ]; then
-        dockercompose="${dockercompose} -f ${filename}"
+    if [ -f "$filename" ]; then
+        dockercompose+=(-f "${filename}")
     fi
 fi
 
 # Chatbot
 if [ "$PLUGIN_CHATBOT" == true ];
 then
-    dockercompose="${dockercompose} -f ${basedir}/chatbot.yml"
+    dockercompose+=(-f "${basedir}/chatbot.yml")
     # SSL.
     if [ "$MOODLE_SERVER_SSL" == true ];
     then
@@ -87,7 +87,7 @@ fi
 # Jupyter 
 if [ "$PLUGIN_JUPYTER" == true ];
 then
-  dockercompose="${dockercompose} -f ${basedir}/jupyter.yml"
+  dockercompose+=(-f "${basedir}/jupyter.yml")
 fi 
 
 if [ "$DEBUG" == true ];
@@ -98,4 +98,4 @@ else
 fi
 echo "CHATBOT START COMMAND: ${CHATBOTCOMMAND}"
 
-$dockercompose "$@"
+"${dockercompose[@]}" "$@"

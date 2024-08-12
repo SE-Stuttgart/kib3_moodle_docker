@@ -1,4 +1,5 @@
-bin/moodle-docker-compose.cmd eol=lf
+bin/* eol=lf
+config.env eol=lf
 * text=auto
 *.sh text eol=lf
 *.conf text eol=lf

@@ -112,15 +112,28 @@ if(getenv("PLUGIN_CHATBOT") == "true") {
 }
 
 //
-// enrol webservice user in the course
+// enrol webservice user in the courses
 //
 require_once($CFG->dirroot."/lib/enrollib.php");
-// get course id
-$course_id = intval(file_get_contents("/tmp/setup/data/restored_course_info.txt"));
-// enrol
-$instance = $DB->get_record('enrol', ['courseid' => $course_id, 'enrol' => 'manual']);
-$enrolplugin = enrol_get_plugin($instance->enrol);
-$enrolplugin->enrol_user($instance, $userid, $roleid);
+
+// list of existing backup files
+$backup_files = [];
+$path_zq = "/tmp/setup/data/restored_course_info_zq.txt";
+$path_dqr5 = "/tmp/setup/data/restored_course_info_dqr5.txt";
+if (file_exists($path_zq)) {
+    $backup_files["zq"] = $path_zq;
+}
+if (file_exists($path_dqr5)) {
+    $backup_files["dqr5"] = $path_dqr5;
+}
+foreach($backup_files as $backup_file) {
+    // get course id
+    $course_id = intval(file_get_contents($backup_file));
+    // enrol
+    $instance = $DB->get_record('enrol', ['courseid' => $course_id, 'enrol' => 'manual']);
+    $enrolplugin = enrol_get_plugin($instance->enrol);
+    $enrolplugin->enrol_user($instance, $userid, $roleid);
+}
 
 //
 // generate token

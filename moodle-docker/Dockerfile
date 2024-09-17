@@ -41,10 +41,11 @@ COPY ./moodle-php-apache/root/tmp/setup/get_restored_course_id.php \
     /tmp/setup/
 RUN source /tmp/setup/config.env && sh /tmp/setup/plugins/download.sh
 
-# Add backup
+# Add backup files
 COPY ./moodle-php-apache/root/tmp/setup/restoreBackup.sh /tmp/setup/restoreBackup.sh
-ARG COURSE_BACKUP_FILE_ARG
-COPY ./${COURSE_BACKUP_FILE_ARG} /tmp/setup/data/${COURSE_BACKUP_FILE_ARG}
+ARG COURSE_BACKUP_FILE_ZQ_ARG
+ARG COURSE_BACKUP_FILE_DQR_ARG
+COPY ./*.mbz /tmp/setup/data/
 
 # Add moodle install file
 COPY ./moodle-php-apache/root/tmp/setup/install_moodle.sh /tmp/setup/install_moodle.sh

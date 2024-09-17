@@ -14,7 +14,8 @@ set -a
 source "$basedir"/config.env
 set +a
 # Test 
-echo "Course backup file: ${COURSE_BACKUP_FILE}"
+echo "Course backup file ZQ: ${COURSE_BACKUP_FILE_ZQ}"
+echo "Course backup file DQR: ${COURSE_BACKUP_FILE_DQR}"
 
 export ASSETDIR="${basedir}/assets"
 

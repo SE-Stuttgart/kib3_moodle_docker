@@ -41,8 +41,8 @@ if [ "$PLUGIN_CHATBOT" = true ]; then
     git clone https://github.com/SE-Stuttgart/kib3_moodle_chatbot_frontend.git /var/www/html/moodle/blocks/chatbot
 fi
 
-if [ "$PLUGIN_JUPYTER" = true ]; then 
-    echo "Downloading Chatbot Plugin..."
-    git clone https://github.com/SE-Stuttgart/moodle-mod_jupyter.git /var/www/html/moodle/mod/jupyter
-fi
+# if [ "$PLUGIN_JUPYTER" = true ]; then 
+#     echo "Downloading Chatbot Plugin..."
+#     git clone https://github.com/SE-Stuttgart/moodle-mod_jupyter.git /var/www/html/moodle/mod/jupyter
+# fi
 

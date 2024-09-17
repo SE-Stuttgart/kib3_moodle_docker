@@ -7,9 +7,9 @@ Automated Distribution of Moodle, Plugins and Teaching Materials for the KIB3 Co
    (FOR WINDOWS USERS: Requires to [activate optional windows feature](https://learn.microsoft.com/en-us/windows/application-management/add-apps-and-features) `Windows Subsystem for Linux` - see the [German WSL Installation Guide](https://github.com/SE-Stuttgart/kib3_moodle_docker/blob/main/install_wsl.md))
 1. Clone this repository (or download as a .zip file and extract)
 2. Change directory to the directory containing the ``config.env`` file
-3. Copy a full moodle course backup into this directory (file ending with `.mbz`)
+3. Copy a full moodle course backup (either for ZQ, DQR5, or both) into this directory (file ending with `.mbz`)
 5. Open `config.env` and edit the variables to your liking
-  - Make sure to change the value of `COURSE_BACKUP_FILE` to the name of the backup file you copied in step 3.
+  - Make sure to change the values of `COURSE_BACKUP_FILE_ZQ` / `COURSE_BACKUP_FILE_DQR` to the name of the backup files you copied in step 3. If you only copied a a file for the ZQ, empty the value for COURSE_BACKUP_FILE_DQR="" (and vice versa).
   - We recommend not changing the default Moodle & Plugin versions and plugin selection, as this could lead to errors.
   - Change the value of `MOODLE_SERVER_URL` to the URL or IP adress of your server hosting this moodle instance (including protocol: `http` / `https` and port, if not `80`).
   - Change the value of `MOODLE_SERVER_PORT` to the port you want to serve moodle from. Default for http is `80`, if you want to test locally, choose something different (e.g. `8081`).

@@ -6,7 +6,8 @@ services:
     build: 
       context: .
       args:
-        COURSE_BACKUP_FILE_ARG: ${COURSE_BACKUP_FILE}
+        COURSE_BACKUP_FILE_ZQ_ARG: ${COURSE_BACKUP_FILE_ZQ}
+        COURSE_BACKUP_FILE_DQR5_ARG: ${COURSE_BACKUP_FILE_DQR5}
         DEBUG: ${DEBUG}
     depends_on:
       - db

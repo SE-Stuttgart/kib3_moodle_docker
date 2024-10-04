@@ -5,12 +5,14 @@ source /tmp/setup/config.env
 
 # Restore ZQ backup 
 if [ -f "/tmp/setup/data/$COURSE_BACKUP_FILE_ZQ" ]; then
+    echo "Restoring ZQ backup: $COURSE_BACKUP_FILE_ZQ"
     sudo chown www-data "/tmp/setup/data/$COURSE_BACKUP_FILE_ZQ"
     sudo -u www-data php /var/www/html/moodle/admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE_ZQ --categoryid=1
 fi
 
 # Restore DQR5 backup 
 if [ -f "/tmp/setup/data/$COURSE_BACKUP_FILE_DQR5" ]; then
+    echo "Restoring DQR5 backup: $COURSE_BACKUP_FILE_DQR5"
     sudo chown www-data "/tmp/setup/data/$COURSE_BACKUP_FILE_DQR5"
     sudo -u www-data php /var/www/html/moodle/admin/cli/restore_backup.php --file=/tmp/setup/data/$COURSE_BACKUP_FILE_DQR5 --categoryid=1
 fi

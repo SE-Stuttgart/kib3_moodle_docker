@@ -16,11 +16,6 @@ if [ "$PLUGIN_AUTOCOMPLETE" = true ]; then
     git clone https://github.com/SE-Stuttgart/kib3_moodleplugin_autocompleteactivities.git /var/www/html/moodle/local/autocompleteactivities
 fi
 
-if [ "$PLUGIN_H5P" = true ]; then
-    echo "Downloading H5P Plugin..."
-    cd /var/www/html/moodle/mod && curl "https://moodle.org/plugins/download.php/28179/mod_hvp_${PLUGIN_HVP_VERSION}.zip" --output hvp.zip && unzip hvp.zip && rm hvp.zip
-fi
-
 if [ "$PLUGIN_BOOKSEARCH" = true ]; then 
     echo "Downloading Booksearch Plugin..."
     git clone -b fix-webservice-results https://github.com/SE-Stuttgart/moodle-block_booksearch.git /var/www/html/moodle/blocks/booksearch

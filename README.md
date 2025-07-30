@@ -32,9 +32,12 @@ Automated Distribution of Moodle, Plugins and Teaching Materials for the KIB3 Co
   (FOR WINDOWS USERS: if you get an error message like _WSL Kernel version is too low_, you can upgrade it by opening a terminal end executing the command ``wsl --update``. Then, re-try this step)
 
    Wait for everything to be completed: After the terminal says the container is running, open the Docker desktop app, go to the `Containers` tab on the left panel:
-   <img width="1538" alt="Bildschirmfoto 2023-06-23 um 10 34 41" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/d66942ae-a6c3-4007-95fb-97b46e5c8a28">
+   
+   ![Running container](./images/container.running.png)
+
   Then, click the `moodle-docker` container. This opens a log view. Watch this log to see when the installation finished:
- ![Bildschirmfoto 2023-08-23 um 16 56 48](https://media.github.tik.uni-stuttgart.de/user/3040/files/b8014a87-fd4e-4981-b144-dc641cfe4d41)
+
+ ![Webserver running](./images/webserver.running.png)
  
 6. Once the container is running, you can access it through e.g. http://localhost:8081 (if using default confiuration, otherwise navigate to the value you specified in  `MOODLE_SERVER_URL`) in your browser.
 
@@ -48,36 +51,38 @@ NOTE: If moodle feels slow (MacOS / Windows), allocate more resources (CPU, Memo
 ## Deleting (Container, Image and all user data)
 1. Open the Docker Desktop app, go to the `Containers` tab on the left panel.
    Then, select the checkbox next to the `moodle-docker` container:
-   <img width="1286" alt="Bildschirmfoto 2023-09-14 um 09 49 32" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/358857da-16e4-4687-a31c-9e15a39150a8">
 
-   Afterwards, it should look like this:
-   <img width="1288" alt="Bildschirmfoto 2023-09-14 um 09 50 55" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/a2e6faf0-bf06-46e4-a11e-2cc42705513c">
-  
+   ![Delete container step 1](./images/delete.container.step1.png)
+
 2. Click `Delete`:
-<img width="1297" alt="Bildschirmfoto 2023-09-14 um 09 51 29" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/f3f0703d-fb6d-4ffd-b274-fea02ddcdb2c">
+   Afterwards, it should look like this:
+
+   ![Delete container step 2](./images/delete.container.step2.png)
+
+   Click `Delete forever`. 
 
 3. Go to the `Images` tab on the left panel.
-   Then, select the checkbox next to the `moodle-docker-webserver` image:
+   Then, select the checkboxex next to the `moodle-docker-webserver`  and the `moodle-docker-chatbot` images:
    
-   <img width="1300" alt="Bildschirmfoto 2023-09-14 um 09 59 21" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/eb0362df-e603-49e2-b34a-51d74dc1c5d9">
+   ![Delete image step 1](./images/delete.image.step1.png)
 
 4. Click `Delete`:
 
-<img width="1295" alt="Bildschirmfoto 2023-09-14 um 10 02 08" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/1cd3b8d9-aae1-407d-8e1c-f936c59f75ac">
+  ![Delete image step 2](./images/delete.image.step2.png)
 
 5. Go to the `Volumes` tab on the left panel.
   Then, select the checkbox next to the `moodle-docker_moodle-database` volume: 
   
-  <img width="1294" alt="Bildschirmfoto 2023-09-14 um 10 03 10" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/5f8da9d5-f52d-4dd9-a75d-a81f9780f367">
+   ![Delete volume step 1](./images/delete.volume.step1.png)
   
 6. Click `Delete`:
 
-<img width="1281" alt="Bildschirmfoto 2023-09-14 um 10 03 59" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/d1b8c3a9-5679-41c8-a83e-c2c70e7063b2">
-
+   ![Delete volume step 2](./images/delete.volume.step2.png)
+ 
 7. OPTIONAL: If you plan to install a newer version of this docker container, please open a terminal and execute `docker builder prune --all`.
    When asked to continue, press `y`:
    
-   <img width="718" alt="Bildschirmfoto 2023-09-14 um 10 05 33" src="https://media.github.tik.uni-stuttgart.de/user/3040/files/d3584fe2-517c-49b0-bb1f-358446f9feae">
-
+   ![Builder prune](./images/prune.png)
+ 
   After this step, you can get a new version of this container and start over with the installation procedure detailed above.
 
